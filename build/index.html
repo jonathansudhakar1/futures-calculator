@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool</title>
+
+    <meta name="description" content="Comprehensive futures contract specifications table (CME, Eurex, NYMEX, COMEX) with real-time PnL calculator. Search symbols, view margins, tick sizes, and values. Dark mode interface. Essential tool for futures traders.">
+    <meta name="keywords" content="futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Dow Jones, Russell 2000, Gold, Silver, Crude Oil, Natural Gas, Forex Futures, Treasury Futures, Agricultural Futures, day trading margins, overnight margin, tick size, tick value, futures trading, financial instruments, commodity trading, derivatives, risk management, profit and loss, trading calculator, dark mode, financial data, real-time, searchable table, Inter, Tailwind CSS">
+    <meta name="author" content="Futures Trading Tools Co."> <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="revisit-after" content="7 days">
+    <meta name="theme-color" content="#111827"> <meta http-equiv="Content-Language" content="en">
+    
+    <link rel="canonical" href="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:title" content="Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool">
+    <meta property="og:description" content="Searchable futures contract data (margins, tick size/value) for CME, Eurex, etc., with an interactive PnL calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:image" content="https://placehold.co/1200x630/111827/e2e8f0?text=Futures+Tool"> <meta property="og:image:alt" content="Futures Contract Specifications and PnL Calculator Tool">
+    <meta property="og:site_name" content="Futures Trading Tools"> <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Futures Contract Specs & PnL Calculator | Essential Trader Tool">
+    <meta name="twitter:description" content="Instantly find futures contract details (margins, ticks) and calculate PnL. Covers CME, Eurex, and more. Dark mode.">
+    <meta name="twitter:image" content="https://placehold.co/600x314/111827/e2e8f0?text=Futures+Tool"> <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Futures Tool">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-blue': '#4a90e2', 
+                        'brand-blue-light': '#60a5fa', 
+                        'dark-bg': '#111827', 
+                        'dark-card': '#1f2937', 
+                        'dark-table-header': '#374151', 
+                        'dark-input': '#374151', 
+                        'dark-border': '#4b5563', 
+                        'light-text': '#f3f4f6', 
+                        'medium-text': '#9ca3af', 
+                        'success-green': '#10b981', 
+                        'danger-red': '#ef4444',   
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom scrollbar for a more integrated dark mode look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* dark-card */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563; /* dark-border */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* A lighter shade for hover */
+        }
+        /* Custom styling for radio button "pills" */
+        .radio-pill-group input[type="radio"]:checked + label {
+            background-color: tailwind.theme.colors['brand-blue'];
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+         .radio-pill-group label {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Futures Contract Specifications & PnL Calculator",
+      "description": "An interactive tool providing a searchable table of futures contract specifications (margins, tick size, tick value) for major exchanges like CME, Eurex, NYMEX, COMEX, and a real-time Profit and Loss (PnL) calculator for futures trading. Features a modern dark mode interface.",
+      "url": "https://www.example.com/futures-contracts-pnl-calculator", // Replace with actual URL
+      "keywords": "futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Gold, Crude Oil, Forex Futures, Treasury Futures, day trading margins, tick size, tick value, futures trading, financial instruments",
+      "mainEntity": {
+        "@type": "WebSite",
+        "name": "Futures Trading Tools", // Replace with your site name
+        "url": "https://www.example.com/" // Replace with your site's base URL
+      },
+      "author": {
+        "@type": "Organization", // Or "Person" if applicable
+        "name": "Futures Trading Tools Co." // Replace with actual author/company
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Futures Trading Tools Co.", // Replace with actual author/company
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://placehold.co/200x60/111827/e2e8f0?text=Site+Logo" // Replace with your logo URL
+        }
+      },
+      "datePublished": "2025-05-27", // Current date or actual publish date
+      "dateModified": "2025-05-27", // Current date or last modified date
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.example.com/futures-contracts-pnl-calculator?search={search_term_string}" // Replace with actual search URL if applicable
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+</head>
+<body class="bg-dark-bg text-light-text font-sans antialiased">
+
+    <div class="container mx-auto max-w-5xl p-4 md:p-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-brand-blue mb-8 pb-3 border-b-2 border-brand-blue/50">Futures Contract Information</h1>
+
+        <div class="bg-dark-card p-4 md:p-6 rounded-lg shadow-xl mb-8">
+            <h2 class="text-xl md:text-2xl font-semibold text-brand-blue mb-5">PnL Calculator</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 items-end">
+                <div class="form-group md:col-span-2 lg:col-span-1">
+                    <label for="contractSelect" class="block mb-1.5 text-xs font-medium text-medium-text">Contract:</label>
+                    <select id="contractSelect" 
+                            class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                        <option value="">-- Select Contract --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="block mb-1.5 text-xs font-medium text-medium-text">Calc Method:</label>
+                    <div class="flex items-center space-x-2 bg-dark-input p-1 rounded-md radio-pill-group">
+                        <div class="flex-1">
+                            <input type="radio" id="calcMethodPrice" name="calcMethod" value="price" checked class="hidden peer">
+                            <label for="calcMethodPrice" class="block w-full text-center py-1.5 px-2 text-xs font-medium text-medium-text bg-gray-700 rounded-md cursor-pointer peer-checked:bg-brand-blue peer-checked:text-white hover:bg-gray-600">Entry/Exit</label>
+                        </div>
+                        <div class="flex-1">
+                            <input type="radio" id="calcMethodChange" name="calcMethod" value="change" class="hidden peer">
+                            <label for="calcMethodChange" class="block w-full text-center py-1.5 px-2 text-xs font-medium text-medium-text bg-gray-700 rounded-md cursor-pointer peer-checked:bg-brand-blue peer-checked:text-white hover:bg-gray-600">Change</label>
+                        </div>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="block mb-1.5 text-xs font-medium text-medium-text">Direction:</label>
+                     <div class="flex items-center space-x-2 bg-dark-input p-1 rounded-md radio-pill-group">
+                        <div class="flex-1">
+                            <input type="radio" id="directionLong" name="direction" value="long" checked class="hidden peer">
+                            <label for="directionLong" class="block w-full text-center py-1.5 px-2 text-xs font-medium text-medium-text bg-gray-700 rounded-md cursor-pointer peer-checked:bg-success-green peer-checked:text-white hover:bg-gray-600">Long</label>
+                        </div>
+                        <div class="flex-1">
+                             <input type="radio" id="directionShort" name="direction" value="short" class="hidden peer">
+                             <label for="directionShort" class="block w-full text-center py-1.5 px-2 text-xs font-medium text-medium-text bg-gray-700 rounded-md cursor-pointer peer-checked:bg-danger-red peer-checked:text-white hover:bg-gray-600">Short</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="priceFields" class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 items-end">
+                <div class="form-group">
+                    <label for="entryPrice" class="block mb-1.5 text-xs font-medium text-medium-text">Entry Price:</label>
+                    <input type="number" id="entryPrice" step="any"
+                           class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                </div>
+                <div class="form-group">
+                    <label for="exitPrice" class="block mb-1.5 text-xs font-medium text-medium-text">Exit Price:</label>
+                    <input type="number" id="exitPrice" step="any"
+                           class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                </div>
+                 <div class="form-group">
+                    <label for="numContracts" class="block mb-1.5 text-xs font-medium text-medium-text">Contracts:</label>
+                    <input type="number" id="numContracts" value="1" min="1"
+                           class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                </div>
+            </div>
+
+            <div id="changeField" class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 items-end" style="display:none;">
+                <div class="form-group">
+                    <label for="priceChange" class="block mb-1.5 text-xs font-medium text-medium-text">Price Change (+/-):</label>
+                    <input type="number" id="priceChange" step="any"
+                           class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                </div>
+                 <div class="form-group md:col-start-3"> <label for="numContractsChange" class="block mb-1.5 text-xs font-medium text-medium-text">Contracts:</label>
+                    <input type="number" id="numContractsChange" value="1" min="1"
+                           class="bg-dark-input border border-dark-border text-light-text text-sm rounded-md focus:ring-1 focus:ring-brand-blue focus:border-brand-blue block w-full p-2 transition-shadow duration-150 shadow-sm focus:shadow-md">
+                </div>
+            </div>
+            
+            <div id="pnlResult" class="mt-5 p-3 text-lg font-semibold text-center bg-gray-700 rounded-md" style="display:none;"></div>
+        </div>
+
+        <div class="bg-dark-card p-6 rounded-lg shadow-xl mb-8">
+            <h2 class="text-2xl font-semibold text-brand-blue mb-4">Search Contracts</h2>
+            <input type="text" id="searchInput" onkeyup="searchContracts()" placeholder="Search by symbol or name..."
+                   class="w-full p-3 bg-dark-input border border-dark-border rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent placeholder-medium-text text-light-text transition-shadow duration-150 shadow-sm focus:shadow-md">
+        </div>
+
+        <div class="bg-dark-card p-6 rounded-lg shadow-xl mb-8 overflow-x-auto">
+            <h2 class="text-2xl font-semibold text-brand-blue mb-4">Contract Specifications</h2>
+            <table id="contractsTable" class="w-full text-sm text-left">
+                <thead class="text-xs text-blue-300 uppercase bg-dark-table-header">
+                    <tr>
+                        <th scope="col" class="px-4 md:px-6 py-3 rounded-tl-lg">Symbol</th>
+                        <th scope="col" class="px-4 md:px-6 py-3">Product Name</th>
+                        <th scope="col" class="px-4 md:px-6 py-3">Exchange</th>
+                        <th scope="col" class="px-4 md:px-6 py-3">Overnight Margin</th>
+                        <th scope="col" class="px-4 md:px-6 py-3">Tick Size</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 rounded-tr-lg">Tick Value</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="text-xs text-medium-text mt-10 p-4 bg-dark-card rounded-lg shadow-md">
+            <p class="font-semibold mb-2 text-light-text">Disclaimer:</p>
+            <p class="mb-1">Margins and contract specifications are subject to change without prior notice. The data presented here is for informational purposes and was sourced from AMP Futures. Overnight Margins are equivalent to Maintenance Margins. Day Trading margins might differ.</p>
+            <p class="mb-1">The CFTC, CME, and NFA classify all retail traders as a "Heightened Risk Profile," mandating a 10% higher exchange margin requirement than the rates published on the CME website for some products. Always consult official sources for the most current information.</p>
+            <p class="mb-1">AMP Global Clearing, LLC assumes no responsibility for any errors or omissions.</p>
+            <p>Trading futures involves substantial risk of loss and is not suitable for all investors.</p>
+        </div>
+    </div>
+
+    <script>
+        // Sample contract data (Ideally, this would be parsed from your HTML files)
+        const allContractsData = [
+            { symbol: "MES", name: "Micro E-mini S&P 500", exchange: "CME", overnightMargin: "2455.00", tickSizeStr: "0.25", tickValueStr: "1.25", currency: "$", numericTickSize: 0.25, numericTickValue: 1.25 },
+            { symbol: "MNQ", name: "Micro E-mini Nasdaq-100", exchange: "CME", overnightMargin: "3572.00", tickSizeStr: "0.25", tickValueStr: "0.50", currency: "$", numericTickSize: 0.25, numericTickValue: 0.50 },
+            { symbol: "MYM", name: "Micro E-mini Dow", exchange: "CBOT/CME", overnightMargin: "1527.00", tickSizeStr: "1.00", tickValueStr: "0.50", currency: "$", numericTickSize: 1.00, numericTickValue: 0.50 },
+            { symbol: "M2K", name: "Micro E-mini Russell 2000", exchange: "CME", overnightMargin: "1027.00", tickSizeStr: "0.10", tickValueStr: "0.50", currency: "$", numericTickSize: 0.10, numericTickValue: 0.50 },
+            { symbol: "FDXS", name: "Micro-DAX", exchange: "Eurex", overnightMargin: "1850.00", tickSizeStr: "1", tickValueStr: "1.00", currency: "€", numericTickSize: 1, numericTickValue: 1.00 },
+            { symbol: "FSXE", name: "Micro-EURO STOXX 50", exchange: "Eurex", overnightMargin: "395.00", tickSizeStr: "0.5", tickValueStr: "0.50", currency: "€", numericTickSize: 0.5, numericTickValue: 0.50 },
+            { symbol: "ES", name: "E-mini S&P 500", exchange: "CME", overnightMargin: "24550.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "NQ", name: "E-mini Nasdaq-100", exchange: "CME", overnightMargin: "35714.00", tickSizeStr: "0.25", tickValueStr: "5.00", currency: "$", numericTickSize: 0.25, numericTickValue: 5.00 },
+            { symbol: "YM", name: "E-mini Dow ($5)", exchange: "CBOT/CME", overnightMargin: "15269.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "$", numericTickSize: 1, numericTickValue: 5.00 },
+            { symbol: "RTY", name: "E-mini Russell 2000", exchange: "CME", overnightMargin: "10274.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
+            { symbol: "EMD", name: "E-mini S&P MidCap 400", exchange: "CME", overnightMargin: "24888.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "MNK", name: "Micro Nikkei (USD)", exchange: "CME", overnightMargin: "1698.40", tickSizeStr: "5", tickValueStr: "2.50", currency: "$", numericTickSize: 5, numericTickValue: 2.50 },
+            { symbol: "NKD", name: "NIKKEI 225/USD", exchange: "CME", overnightMargin: "16980.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
+            { symbol: "FDAX", name: "DAX", exchange: "Eurex", overnightMargin: "46442.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "€", numericTickSize: 1, numericTickValue: 25.00 },
+            { symbol: "FDXM", name: "Mini-DAX", exchange: "Eurex", overnightMargin: "9285.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "€", numericTickSize: 1, numericTickValue: 5.00 },
+            { symbol: "FESX", name: "EURO STOXX 50", exchange: "Eurex", overnightMargin: "4500.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "€", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "FXXP", name: "STOXX Europe 600", exchange: "Eurex", overnightMargin: "2320.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "€", numericTickSize: 0.1, numericTickValue: 5.00 },
+            { symbol: "FESB", name: "EURO STOXX Banks", exchange: "Eurex", overnightMargin: "1285.00", tickSizeStr: "0.05", tickValueStr: "2.50", currency: "€", numericTickSize: 0.05, numericTickValue: 2.50 },
+            { symbol: "FVS", name: "VSTOXX", exchange: "Eurex", overnightMargin: "1030.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "€", numericTickSize: 0.05, numericTickValue: 5.00 },
+            { symbol: "VX", name: "CBOE Volatility Index (VIX)", exchange: "CFE/CBOE", overnightMargin: "11770.00", tickSizeStr: "0.05", tickValueStr: "50.00", currency: "$", numericTickSize: 0.05, numericTickValue: 50.00 },
+            { symbol: "VXM", name: "Mini CBOE Volatility Index (Mini VIX)", exchange: "CFE/CBOE", overnightMargin: "1177.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "$", numericTickSize: 0.05, numericTickValue: 5.00 },
+            { symbol: "Y", name: "FTSE 250 Index", exchange: "ICE Europe - Financials", overnightMargin: "2900.00", tickSizeStr: "0.5", tickValueStr: "1.00", currency: "£", numericTickSize: 0.5, numericTickValue: 1.00 },
+            { symbol: "Z", name: "FTSE 100 Index", exchange: "ICE Europe - Financials", overnightMargin: "5385.00", tickSizeStr: "0.5", tickValueStr: "5.00", currency: "£", numericTickSize: 0.5, numericTickValue: 5.00 },
+            { symbol: "MC225", name: "Nikkei 225 micro (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "200.00", tickSizeStr: "5", tickValueStr: "50.00", currency: "¥", numericTickSize: 5, numericTickValue: 50.00 },
+            { symbol: "MJNK", name: "Nikkei 225 mini (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "2002.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
+            { symbol: "JNK", name: "Nikkei 225 (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "20075.00", tickSizeStr: "10", tickValueStr: "10000.00", currency: "¥", numericTickSize: 10, numericTickValue: 10000.00 },
+            { symbol: "JTPX", name: "TOPIX", exchange: "Osaka - Japan (JPX)", overnightMargin: "15625.00", tickSizeStr: "0.5", tickValueStr: "5000.00", currency: "¥", numericTickSize: 0.5, numericTickValue: 5000.00 },
+            { symbol: "JMT", name: "Mini-TOPIX", exchange: "Osaka - Japan (JPX)", overnightMargin: "1562.00", tickSizeStr: "0.25", tickValueStr: "250.00", currency: "¥", numericTickSize: 0.25, numericTickValue: 250.00 },
+            { symbol: "J400", name: "JPX-Nikkei Index 400", exchange: "Osaka - Japan (JPX)", overnightMargin: "1393.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
+            { symbol: "NK", name: "SGX Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "9846.00", tickSizeStr: "5", tickValueStr: "2500.00", currency: "¥", numericTickSize: 5, numericTickValue: 2500.00 },
+            { symbol: "NS", name: "SGX Mini Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "2953.00", tickSizeStr: "1", tickValueStr: "100.00", currency: "¥", numericTickSize: 1, numericTickValue: 100.00 },
+            { symbol: "NU", name: "SGX USD Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "11550.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
+            { symbol: "TW", name: "FTSE Taiwan Stock Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "6160.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "AP", name: "ASX SPI200 Index", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "10568.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "A$", numericTickSize: 1, numericTickValue: 25.00 },
+            { symbol: "HSI", name: "Hang Seng Index", exchange: "Hong Kong (HKEX)", overnightMargin: "16876.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
+            { symbol: "MHI", name: "Mini-Hang Seng Index", exchange: "Hong Kong (HKEX)", overnightMargin: "3375.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "HHI", name: "Hang Seng China Ent. Index", exchange: "Hong Kong (HKEX)", overnightMargin: "6528.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
+            { symbol: "MCH", name: "Mini-Hang-Seng China Ent. Index", exchange: "Hong Kong (HKEX)", overnightMargin: "1305.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "6A", name: "Australian Dollar", exchange: "CME", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 10.00 },
+            { symbol: "6B", name: "British Pound", exchange: "CME", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
+            { symbol: "6C", name: "Canadian Dollar", exchange: "CME", overnightMargin: "1485.00", tickSizeStr: "0.00005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 5.00 },
+            { symbol: "6E", name: "Euro FX", exchange: "CME", overnightMargin: "3740.00", tickSizeStr: "0.00005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.00005, numericTickValue: 6.25 },
+            { symbol: "6J", name: "Japanese Yen", exchange: "CME", overnightMargin: "4180.00", tickSizeStr: "0.0000005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0000005, numericTickValue: 6.25 },
+            { symbol: "6N", name: "New Zealand Dollar", exchange: "CME", overnightMargin: "1870.00", tickSizeStr: "0.00005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 10.00 },
+            { symbol: "6S", name: "Swiss Franc", exchange: "CME", overnightMargin: "5940.00", tickSizeStr: "0.0001", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0001, numericTickValue: 12.50 },
+            { symbol: "E7", name: "E-mini Euro FX", exchange: "CME", overnightMargin: "1870.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
+            { symbol: "J7", name: "E-mini Japanese Yen", exchange: "CME", overnightMargin: "2090.00", tickSizeStr: "0.000001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 6.25 },
+            { symbol: "M6A", name: "Micro AUD/USD", exchange: "CME", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
+            { symbol: "M6B", name: "Micro GBP/USD", exchange: "CME", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "0.625", currency: "$", numericTickSize: 0.0001, numericTickValue: 0.625 },
+            { symbol: "MCD", name: "Micro CAD/USD", exchange: "CME", overnightMargin: "148.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
+            { symbol: "M6E", name: "Micro EUR/USD", exchange: "CME", overnightMargin: "374.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
+            { symbol: "MJY", name: "Micro JPY/USD", exchange: "CME", overnightMargin: "418.00", tickSizeStr: "0.000001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 1.25 },
+            { symbol: "MSF", name: "Micro CHF/USD", exchange: "CME", overnightMargin: "594.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
+            { symbol: "DX", name: "Dollar Index", exchange: "ICE Futures U.S.", overnightMargin: "1974.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.005, numericTickValue: 5.00 },
+            { symbol: "CL", name: "Crude Oil", exchange: "NYMEX/CME", overnightMargin: "6633.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "QM", name: "E-mini Crude Oil", exchange: "NYMEX/CME", overnightMargin: "3328.00", tickSizeStr: "0.025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.025, numericTickValue: 12.50 },
+            { symbol: "MCL", name: "Micro WTI Crude Oil", exchange: "NYMEX/CME", overnightMargin: "666.00", tickSizeStr: "0.01", tickValueStr: "1.00", currency: "$", numericTickSize: 0.01, numericTickValue: 1.00 },
+            { symbol: "NG", name: "Natural Gas", exchange: "NYMEX/CME", overnightMargin: "3638.00", tickSizeStr: "0.001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.001, numericTickValue: 10.00 },
+            { symbol: "QG", name: "E-mini Natural Gas", exchange: "NYMEX/CME", overnightMargin: "915.00", tickSizeStr: "0.005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.005, numericTickValue: 12.50 },
+            { symbol: "MNG", name: "Micro Henry Hub Natural Gas", exchange: "NYMEX/CME", overnightMargin: "366.00", tickSizeStr: "0.001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "RB", name: "RBOB Gasoline", exchange: "NYMEX/CME", overnightMargin: "7177.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
+            { symbol: "HO", name: "Heating Oil", exchange: "NYMEX/CME", overnightMargin: "7480.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
+            { symbol: "BRN", name: "ICE Brent Crude", exchange: "ICE Europe - Commodities", overnightMargin: "5310.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "T", name: "ICE WTI Crude", exchange: "ICE Europe - Commodities", overnightMargin: "6450.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "G", name: "ICE Gas Oil", exchange: "ICE Europe - Commodities", overnightMargin: "4396.00", tickSizeStr: "0.25", tickValueStr: "25.00", currency: "$", numericTickSize: 0.25, numericTickValue: 25.00 },
+            { symbol: "GC", name: "Gold", exchange: "COMEX/CME", overnightMargin: "16500.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "QO", name: "E-mini Gold", exchange: "COMEX/CME", overnightMargin: "8250.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "MGC", name: "Micro Gold", exchange: "COMEX/CME", overnightMargin: "1650.00", tickSizeStr: "0.10", tickValueStr: "1.00", currency: "$", numericTickSize: 0.10, numericTickValue: 1.00 },
+            { symbol: "1OZ", name: "1-Ounce Gold", exchange: "COMEX/CME", overnightMargin: "165.00", tickSizeStr: "0.25", tickValueStr: "0.25", currency: "$", numericTickSize: 0.25, numericTickValue: 0.25 },
+            { symbol: "HG", name: "Copper", exchange: "COMEX/CME", overnightMargin: "9900.00", tickSizeStr: "0.0005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 12.50 },
+            { symbol: "QC", name: "E-mini Copper", exchange: "COMEX/CME", overnightMargin: "4950.00", tickSizeStr: "0.002", tickValueStr: "25.00", currency: "$", numericTickSize: 0.002, numericTickValue: 25.00 },
+            { symbol: "MHG", name: "Micro Copper", exchange: "COMEX/CME", overnightMargin: "990.00", tickSizeStr: "0.0005", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0005, numericTickValue: 1.25 },
+            { symbol: "SI", name: "Silver", exchange: "COMEX/CME", overnightMargin: "16500.00", tickSizeStr: "0.005", tickValueStr: "25.00", currency: "$", numericTickSize: 0.005, numericTickValue: 25.00 },
+            { symbol: "QI", name: "E-mini Silver", exchange: "COMEX/CME", overnightMargin: "8250.00", tickSizeStr: "0.0125", tickValueStr: "31.25", currency: "$", numericTickSize: 0.0125, numericTickValue: 31.25 },
+            { symbol: "SIL", name: "E-micro Silver", exchange: "COMEX/CME", overnightMargin: "3300.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "PL", name: "Platinum", exchange: "NYMEX/CME", overnightMargin: "3850.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
+            { symbol: "UB", name: "Ultra U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "5665.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
+            { symbol: "MWN", name: "Micro Ultra U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "566.00", tickSizeStr: "1/32", tickValueStr: "3.125", currency: "$", numericTickSize: 1/32, numericTickValue: 3.125 },
+            { symbol: "TN", name: "Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "2805.00", tickSizeStr: "1/32", tickValueStr: "15.625", currency: "$", numericTickSize: 1/32, numericTickValue: 15.625 }, 
+            { symbol: "MTN", name: "Micro Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "280.00", tickSizeStr: "1/2 of 1/32", tickValueStr: "1.5625", currency: "$", numericTickSize: 0.5/32, numericTickValue: 1.5625 },
+            { symbol: "Z3N", name: "3-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1980.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
+            { symbol: "ZB", name: "U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "4070.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
+            { symbol: "30YY", name: "Micro 30-Year Yield", exchange: "CBOT/CME", overnightMargin: "297.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZF", name: "5-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1375.00", tickSizeStr: "1/128", tickValueStr: "7.8125", currency: "$", numericTickSize: 1/128, numericTickValue: 7.8125 },
+            { symbol: "5YY", name: "Micro 5-Year Yield", exchange: "CBOT/CME", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZN", name: "10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "2062.00", tickSizeStr: "1/64", tickValueStr: "15.625", currency: "$", numericTickSize: 1/64, numericTickValue: 15.625 },
+            { symbol: "10YY", name: "Micro 10-Year Yield", exchange: "CBOT/CME", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZQ", name: "30-Day Federal Funds", exchange: "CBOT/CME", overnightMargin: "467.00", tickSizeStr: "0.005", tickValueStr: "20.835", currency: "$", numericTickSize: 0.005, numericTickValue: 20.835 },
+            { symbol: "ZT", name: "2-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1320.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
+            { symbol: "2YY", name: "Micro 2-Year Yield", exchange: "CBOT/CME", overnightMargin: "363.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "SR1", name: "One-Month SOFR", exchange: "CME", overnightMargin: "192.00", tickSizeStr: "0.005", tickValueStr: "20.8333", currency: "$", numericTickSize: 0.005, numericTickValue: 20.8333 },
+            { symbol: "SR3", name: "Three-Month SOFR", exchange: "CME", overnightMargin: "539.00", tickSizeStr: "0.0025", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0025, numericTickValue: 6.25 },
+            { symbol: "FGBL", name: "Euro-Bund", exchange: "Eurex", overnightMargin: "2835.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FGBM", name: "Euro-Bobl", exchange: "Eurex", overnightMargin: "1615.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FGBS", name: "Euro-Schatz", exchange: "Eurex", overnightMargin: "585.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "€", numericTickSize: 0.005, numericTickValue: 5.00 },
+            { symbol: "FGBX", name: "Euro-Buxl", exchange: "Eurex", overnightMargin: "6175.00", tickSizeStr: "0.02", tickValueStr: "20.00", currency: "€", numericTickSize: 0.02, numericTickValue: 20.00 },
+            { symbol: "FBTP", name: "Long-Term Euro-BTP", exchange: "Eurex", overnightMargin: "3920.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FBTS", name: "Short-Term Euro-BTP", exchange: "Eurex", overnightMargin: "1225.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FOAT", name: "Euro-OAT", exchange: "Eurex", overnightMargin: "2775.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "SO3", name: "3-Month SONIA Index", exchange: "ICE Europe - Financials", overnightMargin: "340.00", tickSizeStr: "0.005", tickValueStr: "6.25", currency: "£", numericTickSize: 0.005, numericTickValue: 6.25 },
+            { symbol: "R", name: "Long Gilt", exchange: "ICE Europe - Financials", overnightMargin: "3400.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "£", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "JGB", name: "10-Year Japanese Government Bond", exchange: "Osaka - Japan (JPX)", overnightMargin: "9042.00", tickSizeStr: "0.01", tickValueStr: "10000.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 10000.00 },
+            { symbol: "JB", name: "SGX 10-Year Mini JGB", exchange: "Singapore Exchange (SGX)", overnightMargin: "1061.00", tickSizeStr: "0.01", tickValueStr: "100.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 100.00 },
+            { symbol: "IR", name: "ASX 90-Day Bank Bill", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "535.00", tickSizeStr: "0.01", tickValueStr: "24.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 24.00 },
+            { symbol: "XT", name: "ASX 10-Year Aus Treasury Bond", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "1740.00", tickSizeStr: "0.005", tickValueStr: "47.00", currency: "A$", numericTickSize: 0.005, numericTickValue: 47.00 },
+            { symbol: "YT", name: "ASX 3-Year Aus Interest Rate Swap", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "667.00", tickSizeStr: "0.01", tickValueStr: "30.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 30.00 },
+            { symbol: "ZC", name: "Corn", exchange: "CBOT/CME", overnightMargin: "1155.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XC", name: "Mini-Corn", exchange: "CBOT/CME", overnightMargin: "231.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZC", name: "Micro Corn", exchange: "CBOT/CME", overnightMargin: "115.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZW", name: "Chicago SRW Wheat", exchange: "CBOT/CME", overnightMargin: "1815.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XW", name: "Mini-sized Chicago SRW Wheat", exchange: "CBOT/CME", overnightMargin: "363.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZW", name: "Micro Wheat", exchange: "CBOT/CME", overnightMargin: "181.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZS", name: "Soybeans", exchange: "CBOT/CME", overnightMargin: "2365.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XK", name: "Mini Soybean", exchange: "CBOT/CME", overnightMargin: "473.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZS", name: "Micro Soybean", exchange: "CBOT/CME", overnightMargin: "236.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZL", name: "Soybean Oil", exchange: "CBOT/CME", overnightMargin: "1870.00", tickSizeStr: "1/100", tickValueStr: "6.00", currency: "$", numericTickSize: 0.01, numericTickValue: 6.00 },
+            { symbol: "MZL", name: "Micro Soybean Oil", exchange: "CBOT/CME", overnightMargin: "198.00", tickSizeStr: "0.02", tickValueStr: "1.20", currency: "$", numericTickSize: 0.02, numericTickValue: 1.20 },
+            { symbol: "ZM", name: "Soybean Meal", exchange: "CBOT/CME", overnightMargin: "2310.00", tickSizeStr: "0.10", tickValueStr: "10.00", currency: "$", numericTickSize: 0.10, numericTickValue: 10.00 },
+            { symbol: "MZM", name: "Micro Soybean Meal", exchange: "CBOT/CME", overnightMargin: "231.00", tickSizeStr: "0.2", tickValueStr: "2.00", currency: "$", numericTickSize: 0.2, numericTickValue: 2.00 },
+            { symbol: "ZO", name: "Oats", exchange: "CBOT/CME", overnightMargin: "1210.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "ZR", name: "Rough Rice", exchange: "CBOT/CME", overnightMargin: "1540.00", tickSizeStr: "0.005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.005, numericTickValue: 10.00 },
+            { symbol: "DC", name: "Class III Milk", exchange: "CME", overnightMargin: "1320.00", tickSizeStr: "0.01", tickValueStr: "20.00", currency: "$", numericTickSize: 0.01, numericTickValue: 20.00 },
+            { symbol: "LB", name: "Lumber", exchange: "CME", overnightMargin: "990.00", tickSizeStr: "0.10", tickValueStr: "11.00", currency: "$", numericTickSize: 0.10, numericTickValue: 11.00 },
+            { symbol: "CC", name: "Cocoa", exchange: "ICE Futures U.S.", overnightMargin: "13090.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "$", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "CT", name: "Cotton", exchange: "ICE Futures U.S.", overnightMargin: "1435.00", tickSizeStr: "0.0001", tickValueStr: "5.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 5.00 },
+            { symbol: "KC", name: "Coffee", exchange: "ICE Futures U.S.", overnightMargin: "9829.00", tickSizeStr: "0.0005", tickValueStr: "18.75", currency: "$", numericTickSize: 0.0005, numericTickValue: 18.75 },
+            { symbol: "OJ", name: "Orange Juice", exchange: "ICE Futures U.S.", overnightMargin: "6270.00", tickSizeStr: "0.0005", tickValueStr: "7.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 7.50 },
+            { symbol: "SB", name: "Sugar #11", exchange: "ICE Futures U.S.", overnightMargin: "1556.00", tickSizeStr: "0.0001", tickValueStr: "11.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 11.20 },
+            { symbol: "GF", name: "Feeder Cattle", exchange: "CME", overnightMargin: "4537.00", tickSizeStr: "0.00025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.00025, numericTickValue: 12.50 },
+            { symbol: "HE", name: "Lean Hog", exchange: "CME", overnightMargin: "2035.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 },
+            { symbol: "LE", name: "Live Cattle", exchange: "CME", overnightMargin: "3025.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 }
+        ];
+
+        // DOM Elements for PnL Calculator
+        let contractSelect, calcMethodPrice, calcMethodChange, entryPriceInput, exitPriceInput, priceChangeInput, numContractsInput, numContractsChangeInput, directionLong, directionShort, pnlResultDiv;
+        
+        function populateTable() {
+            const tableBody = document.getElementById('contractsTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ""; // Clear existing rows
+            allContractsData.forEach(contract => {
+                let row = tableBody.insertRow();
+                row.className = 'hover:bg-gray-700/50 transition-colors duration-150';
+                
+                row.insertCell().textContent = contract.symbol;
+                row.insertCell().textContent = contract.name;
+                row.insertCell().textContent = contract.exchange;
+                row.insertCell().textContent = contract.currency + parseFloat(contract.overnightMargin).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                row.insertCell().textContent = contract.tickSizeStr;
+                row.insertCell().textContent = contract.currency + parseFloat(contract.tickValueStr).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                
+                Array.from(row.cells).forEach(cell => {
+                    cell.className = 'px-4 md:px-6 py-3 whitespace-nowrap text-sm text-light-text';
+                });
+            });
+        }
+
+        function populateContractSelect() {
+            const select = document.getElementById('contractSelect');
+            allContractsData.forEach(contract => {
+                let option = document.createElement('option');
+                option.value = contract.symbol;
+                option.textContent = `${contract.symbol} - ${contract.name}`; 
+                option.dataset.tickSize = contract.numericTickSize; 
+                option.dataset.tickValue = contract.numericTickValue;
+                option.dataset.currency = contract.currency;
+                option.dataset.tickSizeStr = contract.tickSizeStr; 
+                select.appendChild(option);
+            });
+        }
+
+        function searchContracts() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('contractsTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) { 
+                let symbolTd = tr[i].getElementsByTagName('td')[0];
+                let nameTd = tr[i].getElementsByTagName('td')[1];
+                if (symbolTd || nameTd) {
+                    let symbolText = symbolTd.textContent || symbolTd.innerText;
+                    let nameText = nameTd.textContent || nameTd.innerText;
+                    if (symbolText.toUpperCase().indexOf(filter) > -1 || nameText.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function toggleCalcFields() {
+            const priceFields = document.getElementById('priceFields');
+            const changeField = document.getElementById('changeField');
+            const numContractsInputPrice = document.getElementById('numContracts');
+            const numContractsInputChange = document.getElementById('numContractsChange');
+
+            if (document.getElementById('calcMethodPrice').checked) {
+                priceFields.style.display = 'grid'; 
+                changeField.style.display = 'none';
+                if(numContractsInputChange.value) numContractsInputPrice.value = numContractsInputChange.value;
+            } else {
+                priceFields.style.display = 'none';
+                changeField.style.display = 'grid'; 
+                if(numContractsInputPrice.value) numContractsInputChange.value = numContractsInputPrice.value;
+            }
+            attemptAutoCalculatePnL();
+        }
+        
+        function updateCalculatorFields() { 
+            attemptAutoCalculatePnL();
+        }
+
+        function evaluateFraction(fractionStr) {
+            if (typeof fractionStr === 'number') return fractionStr; 
+            if (typeof fractionStr !== 'string') return parseFloat(fractionStr); 
+
+            if (fractionStr.toLowerCase().includes('of')) { 
+                const mainParts = fractionStr.toLowerCase().split('of');
+                if (mainParts.length === 2) {
+                    const firstFractionParts = mainParts[0].trim().split('/');
+                    const secondPart = mainParts[1].trim();
+                    let secondDenominator;
+                    if (secondPart.includes('/')) { 
+                        secondDenominator = secondPart.split('/')[1];
+                    } else { 
+                        secondDenominator = secondPart;
+                    }
+                    
+                    if (firstFractionParts.length === 2 && !isNaN(parseFloat(firstFractionParts[0])) && !isNaN(parseFloat(firstFractionParts[1])) && parseFloat(firstFractionParts[1]) !== 0 && !isNaN(parseFloat(secondDenominator)) && parseFloat(secondDenominator) !== 0) {
+                        return (parseFloat(firstFractionParts[0]) / parseFloat(firstFractionParts[1])) / parseFloat(secondDenominator);
+                    }
+                }
+            } else if (fractionStr.includes('/')) { 
+                const parts = fractionStr.split('/');
+                if (parts.length === 2 && !isNaN(parseFloat(parts[0])) && !isNaN(parseFloat(parts[1])) && parseFloat(parts[1]) !== 0) {
+                    return parseFloat(parts[0]) / parseFloat(parts[1]);
+                }
+            }
+            
+            if (fractionStr.toLowerCase().includes('bp')) {
+                 if (fractionStr.includes('1/10 of 1bp')) return 0.001; 
+            }
+            return parseFloat(fractionStr); 
+        }
+
+        function attemptAutoCalculatePnL() {
+            const selectedOption = contractSelect.options[contractSelect.selectedIndex];
+            
+            if (!selectedOption || !selectedOption.value) {
+                pnlResultDiv.style.display = 'none';
+                pnlResultDiv.textContent = ''; // Clear previous results
+                return;
+            }
+
+            const numericTickSize = evaluateFraction(selectedOption.dataset.tickSizeStr);
+            const numericTickValue = parseFloat(selectedOption.dataset.tickValue);
+            const currency = selectedOption.dataset.currency;
+            const direction = document.querySelector('input[name="direction"]:checked').value;
+
+            let numContractsValue;
+            let priceDiff = 0;
+            let allInputsValid = true;
+
+            if (document.getElementById('calcMethodPrice').checked) {
+                const entry = entryPriceInput.value;
+                const exit = exitPriceInput.value;
+                numContractsValue = numContractsInput.value;
+                if (entry === '' || exit === '' || numContractsValue === '' || isNaN(parseFloat(entry)) || isNaN(parseFloat(exit)) || isNaN(parseInt(numContractsValue)) || parseInt(numContractsValue) <= 0) {
+                    allInputsValid = false;
+                } else {
+                    priceDiff = parseFloat(exit) - parseFloat(entry);
+                }
+            } else { // calcMethodChange
+                const change = priceChangeInput.value;
+                numContractsValue = numContractsChangeInput.value;
+                 if (change === '' || numContractsValue === '' || isNaN(parseFloat(change)) || isNaN(parseInt(numContractsValue)) || parseInt(numContractsValue) <= 0) {
+                    allInputsValid = false;
+                } else {
+                    priceDiff = parseFloat(change);
+                }
+            }
+            
+            if (!allInputsValid || isNaN(numericTickSize) || numericTickSize === 0 || isNaN(numericTickValue)) {
+                pnlResultDiv.style.display = 'none';
+                pnlResultDiv.textContent = '';
+                return;
+            }
+            
+            const numTicks = priceDiff / numericTickSize;
+            let pnl = numTicks * numericTickValue * parseInt(numContractsValue);
+
+            if (direction === 'short') {
+                pnl = -pnl;
+            }
+
+            pnlResultDiv.textContent = `PnL: ${currency}${pnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            pnlResultDiv.className = `mt-4 p-3 text-lg font-semibold text-center rounded-md ${pnl >= 0 ? 'bg-success-green text-green-100' : 'bg-danger-red text-red-100'}`;
+            pnlResultDiv.style.display = 'block';
+        }
+
+        // Initialize
+        window.onload = () => {
+            contractSelect = document.getElementById('contractSelect');
+            calcMethodPrice = document.getElementById('calcMethodPrice');
+            calcMethodChange = document.getElementById('calcMethodChange');
+            entryPriceInput = document.getElementById('entryPrice');
+            exitPriceInput = document.getElementById('exitPrice');
+            priceChangeInput = document.getElementById('priceChange');
+            numContractsInput = document.getElementById('numContracts');
+            numContractsChangeInput = document.getElementById('numContractsChange');
+            directionLong = document.getElementById('directionLong');
+            directionShort = document.getElementById('directionShort');
+            pnlResultDiv = document.getElementById('pnlResult');
+
+            populateTable();
+            populateContractSelect();
+            toggleCalcFields(); 
+
+            contractSelect.addEventListener('change', attemptAutoCalculatePnL);
+            calcMethodPrice.addEventListener('change', toggleCalcFields); 
+            calcMethodChange.addEventListener('change', toggleCalcFields);
+            entryPriceInput.addEventListener('input', attemptAutoCalculatePnL);
+            exitPriceInput.addEventListener('input', attemptAutoCalculatePnL);
+            priceChangeInput.addEventListener('input', attemptAutoCalculatePnL);
+            numContractsInput.addEventListener('input', attemptAutoCalculatePnL);
+            numContractsChangeInput.addEventListener('input', attemptAutoCalculatePnL);
+            directionLong.addEventListener('change', attemptAutoCalculatePnL);
+            directionShort.addEventListener('change', attemptAutoCalculatePnL);
+        };
+    </script>
+</body>
+</html>
