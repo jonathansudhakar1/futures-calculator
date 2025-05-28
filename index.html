@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool</title>
 
-    <meta name="description" content="Comprehensive futures contract specifications table (CME, Eurex, NYMEX, COMEX) with real-time PnL calculator. Search symbols, view margins, tick sizes, and values. Dark mode interface. Essential tool for futures traders.">
-    <meta name="keywords" content="futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Dow Jones, Russell 2000, Gold, Silver, Crude Oil, Natural Gas, Forex Futures, Treasury Futures, Agricultural Futures, day trading margins, overnight margin, tick size, tick value, futures trading, financial instruments, commodity trading, derivatives, risk management, profit and loss, trading calculator, dark mode, financial data, real-time, searchable table, Inter, Tailwind CSS">
+    <meta name="description" content="Comprehensive futures contract specifications table (CME, Eurex, NYMEX, COMEX) with real-time PnL calculator. Search symbols, view margins, tick sizes, values, contract size, and months. Dark mode interface. Essential tool for futures traders.">
+    <meta name="keywords" content="futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Dow Jones, Russell 2000, Gold, Silver, Crude Oil, Natural Gas, Forex Futures, Treasury Futures, Agricultural Futures, day trading margins, overnight margin, tick size, tick value, contract size, contract months, futures trading, financial instruments, commodity trading, derivatives, risk management, profit and loss, trading calculator, dark mode, financial data, real-time, searchable table, Inter, Tailwind CSS">
     <meta name="author" content="Futures Trading Tools Co."> <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="revisit-after" content="7 days">
     <meta name="theme-color" content="#111827"> <meta http-equiv="Content-Language" content="en">
     
     <link rel="canonical" href="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:title" content="Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool">
-    <meta property="og:description" content="Searchable futures contract data (margins, tick size/value) for CME, Eurex, etc., with an interactive PnL calculator.">
+    <meta property="og:description" content="Searchable futures contract data (margins, tick size/value, contract size, months) for CME, Eurex, etc., with an interactive PnL calculator.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:image" content="https://placehold.co/1200x630/111827/e2e8f0?text=Futures+Tool"> <meta property="og:image:alt" content="Futures Contract Specifications and PnL Calculator Tool">
     <meta property="og:site_name" content="Futures Trading Tools"> <meta property="og:locale" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Futures Contract Specs & PnL Calculator | Essential Trader Tool">
-    <meta name="twitter:description" content="Instantly find futures contract details (margins, ticks) and calculate PnL. Covers CME, Eurex, and more. Dark mode.">
+    <meta name="twitter:description" content="Instantly find futures contract details (margins, ticks, size, months) and calculate PnL. Covers CME, Eurex, and more. Dark mode.">
     <meta name="twitter:image" content="https://placehold.co/600x314/111827/e2e8f0?text=Futures+Tool"> <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Futures Tool">
@@ -76,6 +76,21 @@
          .radio-pill-group label {
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
         }
+        /* Ensure sticky header cells have a background */
+        th.sticky {
+            background-color: #374151; /* dark-table-header */
+        }
+        td.sticky {
+             background-color: #1f2937; /* dark-card, or adjust if rows have different bg */
+        }
+        /* For alternating row colors with sticky column */
+        #contractsTable tbody tr:nth-child(even) td.sticky {
+            background-color: #2d3748; /* Slightly different if needed, or same as dark-card */
+        }
+         #contractsTable tbody tr:hover td.sticky {
+            background-color: #4a5568; /* Match row hover color */
+        }
+
     </style>
 
     <script type="application/ld+json">
@@ -83,9 +98,9 @@
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Futures Contract Specifications & PnL Calculator",
-      "description": "An interactive tool providing a searchable table of futures contract specifications (margins, tick size, tick value) for major exchanges like CME, Eurex, NYMEX, COMEX, and a real-time Profit and Loss (PnL) calculator for futures trading. Features a modern dark mode interface.",
+      "description": "An interactive tool providing a searchable table of futures contract specifications (margins, tick size, tick value, contract size, months) for major exchanges like CME, Eurex, NYMEX, COMEX, and a real-time Profit and Loss (PnL) calculator for futures trading. Features a modern dark mode interface.",
       "url": "https://www.example.com/futures-contracts-pnl-calculator", // Replace with actual URL
-      "keywords": "futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Gold, Crude Oil, Forex Futures, Treasury Futures, day trading margins, tick size, tick value, futures trading, financial instruments",
+      "keywords": "futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Gold, Crude Oil, Forex Futures, Treasury Futures, day trading margins, tick size, tick value, contract size, contract months, futures trading, financial instruments",
       "mainEntity": {
         "@type": "WebSite",
         "name": "Futures Trading Tools", // Replace with your site name
@@ -202,22 +217,28 @@
                    class="w-full p-3 bg-dark-input border border-dark-border rounded-md focus:ring-2 focus:ring-brand-blue focus:border-transparent placeholder-medium-text text-light-text transition-shadow duration-150 shadow-sm focus:shadow-md">
         </div>
 
-        <div class="bg-dark-card p-6 rounded-lg shadow-xl mb-8 overflow-x-auto">
+        <div class="bg-dark-card p-6 rounded-lg shadow-xl mb-8 ">
             <h2 class="text-2xl font-semibold text-brand-blue mb-4">Contract Specifications</h2>
-            <table id="contractsTable" class="w-full text-sm text-left">
-                <thead class="text-xs text-blue-300 uppercase bg-dark-table-header">
-                    <tr>
-                        <th scope="col" class="px-4 md:px-6 py-3 rounded-tl-lg">Symbol</th>
-                        <th scope="col" class="px-4 md:px-6 py-3">Product Name</th>
-                        <th scope="col" class="px-4 md:px-6 py-3">Exchange</th>
-                        <th scope="col" class="px-4 md:px-6 py-3">Overnight Margin</th>
-                        <th scope="col" class="px-4 md:px-6 py-3">Tick Size</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 rounded-tr-lg">Tick Value</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-700">
-                    </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table id="contractsTable" class="w-full text-sm text-left">
+                    <thead class="text-xs text-blue-300 uppercase bg-dark-table-header">
+                        <tr>
+                            <th scope="col" class="sticky left-0 z-10 px-4 md:px-6 py-3 bg-dark-table-header rounded-tl-lg">Symbol</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Product Name</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Months</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Overnight Margin</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Tick Size</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Tick Value</th>
+                            <th scope="col" class="px-4 md:px-6 py-3">Contract Size</th>
+                            <th scope="col" class="px-4 md:px-6 py-3 rounded-tr-lg">Exchange</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-700">
+                        </tbody>
+                </table>
+            </div>
+            <div id="monthLegend" class="text-xs text-medium-text mt-4 pt-3 border-t border-dark-border">
+                </div>
         </div>
         
         <div class="text-xs text-medium-text mt-10 p-4 bg-dark-card rounded-lg shadow-md">
@@ -230,161 +251,237 @@
     </div>
 
     <script>
-        // Sample contract data (Ideally, this would be parsed from your HTML files)
+        // Sample contract data with added contractSize and months
         const allContractsData = [
-            { symbol: "MES", name: "Micro E-mini S&P 500", exchange: "CME", overnightMargin: "2455.00", tickSizeStr: "0.25", tickValueStr: "1.25", currency: "$", numericTickSize: 0.25, numericTickValue: 1.25 },
-            { symbol: "MNQ", name: "Micro E-mini Nasdaq-100", exchange: "CME", overnightMargin: "3572.00", tickSizeStr: "0.25", tickValueStr: "0.50", currency: "$", numericTickSize: 0.25, numericTickValue: 0.50 },
-            { symbol: "MYM", name: "Micro E-mini Dow", exchange: "CBOT/CME", overnightMargin: "1527.00", tickSizeStr: "1.00", tickValueStr: "0.50", currency: "$", numericTickSize: 1.00, numericTickValue: 0.50 },
-            { symbol: "M2K", name: "Micro E-mini Russell 2000", exchange: "CME", overnightMargin: "1027.00", tickSizeStr: "0.10", tickValueStr: "0.50", currency: "$", numericTickSize: 0.10, numericTickValue: 0.50 },
-            { symbol: "FDXS", name: "Micro-DAX", exchange: "Eurex", overnightMargin: "1850.00", tickSizeStr: "1", tickValueStr: "1.00", currency: "€", numericTickSize: 1, numericTickValue: 1.00 },
-            { symbol: "FSXE", name: "Micro-EURO STOXX 50", exchange: "Eurex", overnightMargin: "395.00", tickSizeStr: "0.5", tickValueStr: "0.50", currency: "€", numericTickSize: 0.5, numericTickValue: 0.50 },
-            { symbol: "ES", name: "E-mini S&P 500", exchange: "CME", overnightMargin: "24550.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "NQ", name: "E-mini Nasdaq-100", exchange: "CME", overnightMargin: "35714.00", tickSizeStr: "0.25", tickValueStr: "5.00", currency: "$", numericTickSize: 0.25, numericTickValue: 5.00 },
-            { symbol: "YM", name: "E-mini Dow ($5)", exchange: "CBOT/CME", overnightMargin: "15269.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "$", numericTickSize: 1, numericTickValue: 5.00 },
-            { symbol: "RTY", name: "E-mini Russell 2000", exchange: "CME", overnightMargin: "10274.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
-            { symbol: "EMD", name: "E-mini S&P MidCap 400", exchange: "CME", overnightMargin: "24888.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
-            { symbol: "MNK", name: "Micro Nikkei (USD)", exchange: "CME", overnightMargin: "1698.40", tickSizeStr: "5", tickValueStr: "2.50", currency: "$", numericTickSize: 5, numericTickValue: 2.50 },
-            { symbol: "NKD", name: "NIKKEI 225/USD", exchange: "CME", overnightMargin: "16980.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
-            { symbol: "FDAX", name: "DAX", exchange: "Eurex", overnightMargin: "46442.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "€", numericTickSize: 1, numericTickValue: 25.00 },
-            { symbol: "FDXM", name: "Mini-DAX", exchange: "Eurex", overnightMargin: "9285.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "€", numericTickSize: 1, numericTickValue: 5.00 },
-            { symbol: "FESX", name: "EURO STOXX 50", exchange: "Eurex", overnightMargin: "4500.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "€", numericTickSize: 1, numericTickValue: 10.00 },
-            { symbol: "FXXP", name: "STOXX Europe 600", exchange: "Eurex", overnightMargin: "2320.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "€", numericTickSize: 0.1, numericTickValue: 5.00 },
-            { symbol: "FESB", name: "EURO STOXX Banks", exchange: "Eurex", overnightMargin: "1285.00", tickSizeStr: "0.05", tickValueStr: "2.50", currency: "€", numericTickSize: 0.05, numericTickValue: 2.50 },
-            { symbol: "FVS", name: "VSTOXX", exchange: "Eurex", overnightMargin: "1030.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "€", numericTickSize: 0.05, numericTickValue: 5.00 },
-            { symbol: "VX", name: "CBOE Volatility Index (VIX)", exchange: "CFE/CBOE", overnightMargin: "11770.00", tickSizeStr: "0.05", tickValueStr: "50.00", currency: "$", numericTickSize: 0.05, numericTickValue: 50.00 },
-            { symbol: "VXM", name: "Mini CBOE Volatility Index (Mini VIX)", exchange: "CFE/CBOE", overnightMargin: "1177.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "$", numericTickSize: 0.05, numericTickValue: 5.00 },
-            { symbol: "Y", name: "FTSE 250 Index", exchange: "ICE Europe - Financials", overnightMargin: "2900.00", tickSizeStr: "0.5", tickValueStr: "1.00", currency: "£", numericTickSize: 0.5, numericTickValue: 1.00 },
-            { symbol: "Z", name: "FTSE 100 Index", exchange: "ICE Europe - Financials", overnightMargin: "5385.00", tickSizeStr: "0.5", tickValueStr: "5.00", currency: "£", numericTickSize: 0.5, numericTickValue: 5.00 },
-            { symbol: "MC225", name: "Nikkei 225 micro (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "200.00", tickSizeStr: "5", tickValueStr: "50.00", currency: "¥", numericTickSize: 5, numericTickValue: 50.00 },
-            { symbol: "MJNK", name: "Nikkei 225 mini (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "2002.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
-            { symbol: "JNK", name: "Nikkei 225 (Osaka)", exchange: "Osaka - Japan (JPX)", overnightMargin: "20075.00", tickSizeStr: "10", tickValueStr: "10000.00", currency: "¥", numericTickSize: 10, numericTickValue: 10000.00 },
-            { symbol: "JTPX", name: "TOPIX", exchange: "Osaka - Japan (JPX)", overnightMargin: "15625.00", tickSizeStr: "0.5", tickValueStr: "5000.00", currency: "¥", numericTickSize: 0.5, numericTickValue: 5000.00 },
-            { symbol: "JMT", name: "Mini-TOPIX", exchange: "Osaka - Japan (JPX)", overnightMargin: "1562.00", tickSizeStr: "0.25", tickValueStr: "250.00", currency: "¥", numericTickSize: 0.25, numericTickValue: 250.00 },
-            { symbol: "J400", name: "JPX-Nikkei Index 400", exchange: "Osaka - Japan (JPX)", overnightMargin: "1393.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
-            { symbol: "NK", name: "SGX Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "9846.00", tickSizeStr: "5", tickValueStr: "2500.00", currency: "¥", numericTickSize: 5, numericTickValue: 2500.00 },
-            { symbol: "NS", name: "SGX Mini Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "2953.00", tickSizeStr: "1", tickValueStr: "100.00", currency: "¥", numericTickSize: 1, numericTickValue: 100.00 },
-            { symbol: "NU", name: "SGX USD Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "11550.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
-            { symbol: "TW", name: "FTSE Taiwan Stock Index", exchange: "Singapore Exchange (SGX)", overnightMargin: "6160.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
-            { symbol: "AP", name: "ASX SPI200 Index", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "10568.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "A$", numericTickSize: 1, numericTickValue: 25.00 },
-            { symbol: "HSI", name: "Hang Seng Index", exchange: "Hong Kong (HKEX)", overnightMargin: "16876.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
-            { symbol: "MHI", name: "Mini-Hang Seng Index", exchange: "Hong Kong (HKEX)", overnightMargin: "3375.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
-            { symbol: "HHI", name: "Hang Seng China Ent. Index", exchange: "Hong Kong (HKEX)", overnightMargin: "6528.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
-            { symbol: "MCH", name: "Mini-Hang-Seng China Ent. Index", exchange: "Hong Kong (HKEX)", overnightMargin: "1305.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
-            { symbol: "6A", name: "Australian Dollar", exchange: "CME", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 10.00 },
-            { symbol: "6B", name: "British Pound", exchange: "CME", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
-            { symbol: "6C", name: "Canadian Dollar", exchange: "CME", overnightMargin: "1485.00", tickSizeStr: "0.00005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 5.00 },
-            { symbol: "6E", name: "Euro FX", exchange: "CME", overnightMargin: "3740.00", tickSizeStr: "0.00005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.00005, numericTickValue: 6.25 },
-            { symbol: "6J", name: "Japanese Yen", exchange: "CME", overnightMargin: "4180.00", tickSizeStr: "0.0000005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0000005, numericTickValue: 6.25 },
-            { symbol: "6N", name: "New Zealand Dollar", exchange: "CME", overnightMargin: "1870.00", tickSizeStr: "0.00005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 10.00 },
-            { symbol: "6S", name: "Swiss Franc", exchange: "CME", overnightMargin: "5940.00", tickSizeStr: "0.0001", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0001, numericTickValue: 12.50 },
-            { symbol: "E7", name: "E-mini Euro FX", exchange: "CME", overnightMargin: "1870.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
-            { symbol: "J7", name: "E-mini Japanese Yen", exchange: "CME", overnightMargin: "2090.00", tickSizeStr: "0.000001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 6.25 },
-            { symbol: "M6A", name: "Micro AUD/USD", exchange: "CME", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
-            { symbol: "M6B", name: "Micro GBP/USD", exchange: "CME", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "0.625", currency: "$", numericTickSize: 0.0001, numericTickValue: 0.625 },
-            { symbol: "MCD", name: "Micro CAD/USD", exchange: "CME", overnightMargin: "148.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
-            { symbol: "M6E", name: "Micro EUR/USD", exchange: "CME", overnightMargin: "374.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
-            { symbol: "MJY", name: "Micro JPY/USD", exchange: "CME", overnightMargin: "418.00", tickSizeStr: "0.000001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 1.25 },
-            { symbol: "MSF", name: "Micro CHF/USD", exchange: "CME", overnightMargin: "594.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
-            { symbol: "DX", name: "Dollar Index", exchange: "ICE Futures U.S.", overnightMargin: "1974.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.005, numericTickValue: 5.00 },
-            { symbol: "CL", name: "Crude Oil", exchange: "NYMEX/CME", overnightMargin: "6633.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "QM", name: "E-mini Crude Oil", exchange: "NYMEX/CME", overnightMargin: "3328.00", tickSizeStr: "0.025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.025, numericTickValue: 12.50 },
-            { symbol: "MCL", name: "Micro WTI Crude Oil", exchange: "NYMEX/CME", overnightMargin: "666.00", tickSizeStr: "0.01", tickValueStr: "1.00", currency: "$", numericTickSize: 0.01, numericTickValue: 1.00 },
-            { symbol: "NG", name: "Natural Gas", exchange: "NYMEX/CME", overnightMargin: "3638.00", tickSizeStr: "0.001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.001, numericTickValue: 10.00 },
-            { symbol: "QG", name: "E-mini Natural Gas", exchange: "NYMEX/CME", overnightMargin: "915.00", tickSizeStr: "0.005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.005, numericTickValue: 12.50 },
-            { symbol: "MNG", name: "Micro Henry Hub Natural Gas", exchange: "NYMEX/CME", overnightMargin: "366.00", tickSizeStr: "0.001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
-            { symbol: "RB", name: "RBOB Gasoline", exchange: "NYMEX/CME", overnightMargin: "7177.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
-            { symbol: "HO", name: "Heating Oil", exchange: "NYMEX/CME", overnightMargin: "7480.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
-            { symbol: "BRN", name: "ICE Brent Crude", exchange: "ICE Europe - Commodities", overnightMargin: "5310.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "T", name: "ICE WTI Crude", exchange: "ICE Europe - Commodities", overnightMargin: "6450.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "G", name: "ICE Gas Oil", exchange: "ICE Europe - Commodities", overnightMargin: "4396.00", tickSizeStr: "0.25", tickValueStr: "25.00", currency: "$", numericTickSize: 0.25, numericTickValue: 25.00 },
-            { symbol: "GC", name: "Gold", exchange: "COMEX/CME", overnightMargin: "16500.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
-            { symbol: "QO", name: "E-mini Gold", exchange: "COMEX/CME", overnightMargin: "8250.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "MGC", name: "Micro Gold", exchange: "COMEX/CME", overnightMargin: "1650.00", tickSizeStr: "0.10", tickValueStr: "1.00", currency: "$", numericTickSize: 0.10, numericTickValue: 1.00 },
-            { symbol: "1OZ", name: "1-Ounce Gold", exchange: "COMEX/CME", overnightMargin: "165.00", tickSizeStr: "0.25", tickValueStr: "0.25", currency: "$", numericTickSize: 0.25, numericTickValue: 0.25 },
-            { symbol: "HG", name: "Copper", exchange: "COMEX/CME", overnightMargin: "9900.00", tickSizeStr: "0.0005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 12.50 },
-            { symbol: "QC", name: "E-mini Copper", exchange: "COMEX/CME", overnightMargin: "4950.00", tickSizeStr: "0.002", tickValueStr: "25.00", currency: "$", numericTickSize: 0.002, numericTickValue: 25.00 },
-            { symbol: "MHG", name: "Micro Copper", exchange: "COMEX/CME", overnightMargin: "990.00", tickSizeStr: "0.0005", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0005, numericTickValue: 1.25 },
-            { symbol: "SI", name: "Silver", exchange: "COMEX/CME", overnightMargin: "16500.00", tickSizeStr: "0.005", tickValueStr: "25.00", currency: "$", numericTickSize: 0.005, numericTickValue: 25.00 },
-            { symbol: "QI", name: "E-mini Silver", exchange: "COMEX/CME", overnightMargin: "8250.00", tickSizeStr: "0.0125", tickValueStr: "31.25", currency: "$", numericTickSize: 0.0125, numericTickValue: 31.25 },
-            { symbol: "SIL", name: "E-micro Silver", exchange: "COMEX/CME", overnightMargin: "3300.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "PL", name: "Platinum", exchange: "NYMEX/CME", overnightMargin: "3850.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
-            { symbol: "UB", name: "Ultra U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "5665.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
-            { symbol: "MWN", name: "Micro Ultra U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "566.00", tickSizeStr: "1/32", tickValueStr: "3.125", currency: "$", numericTickSize: 1/32, numericTickValue: 3.125 },
-            { symbol: "TN", name: "Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "2805.00", tickSizeStr: "1/32", tickValueStr: "15.625", currency: "$", numericTickSize: 1/32, numericTickValue: 15.625 }, 
-            { symbol: "MTN", name: "Micro Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "280.00", tickSizeStr: "1/2 of 1/32", tickValueStr: "1.5625", currency: "$", numericTickSize: 0.5/32, numericTickValue: 1.5625 },
-            { symbol: "Z3N", name: "3-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1980.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
-            { symbol: "ZB", name: "U.S. Treasury Bond", exchange: "CBOT/CME", overnightMargin: "4070.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
-            { symbol: "30YY", name: "Micro 30-Year Yield", exchange: "CBOT/CME", overnightMargin: "297.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
-            { symbol: "ZF", name: "5-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1375.00", tickSizeStr: "1/128", tickValueStr: "7.8125", currency: "$", numericTickSize: 1/128, numericTickValue: 7.8125 },
-            { symbol: "5YY", name: "Micro 5-Year Yield", exchange: "CBOT/CME", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
-            { symbol: "ZN", name: "10-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "2062.00", tickSizeStr: "1/64", tickValueStr: "15.625", currency: "$", numericTickSize: 1/64, numericTickValue: 15.625 },
-            { symbol: "10YY", name: "Micro 10-Year Yield", exchange: "CBOT/CME", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
-            { symbol: "ZQ", name: "30-Day Federal Funds", exchange: "CBOT/CME", overnightMargin: "467.00", tickSizeStr: "0.005", tickValueStr: "20.835", currency: "$", numericTickSize: 0.005, numericTickValue: 20.835 },
-            { symbol: "ZT", name: "2-Year U.S. Treasury Note", exchange: "CBOT/CME", overnightMargin: "1320.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
-            { symbol: "2YY", name: "Micro 2-Year Yield", exchange: "CBOT/CME", overnightMargin: "363.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
-            { symbol: "SR1", name: "One-Month SOFR", exchange: "CME", overnightMargin: "192.00", tickSizeStr: "0.005", tickValueStr: "20.8333", currency: "$", numericTickSize: 0.005, numericTickValue: 20.8333 },
-            { symbol: "SR3", name: "Three-Month SOFR", exchange: "CME", overnightMargin: "539.00", tickSizeStr: "0.0025", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0025, numericTickValue: 6.25 },
-            { symbol: "FGBL", name: "Euro-Bund", exchange: "Eurex", overnightMargin: "2835.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "FGBM", name: "Euro-Bobl", exchange: "Eurex", overnightMargin: "1615.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "FGBS", name: "Euro-Schatz", exchange: "Eurex", overnightMargin: "585.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "€", numericTickSize: 0.005, numericTickValue: 5.00 },
-            { symbol: "FGBX", name: "Euro-Buxl", exchange: "Eurex", overnightMargin: "6175.00", tickSizeStr: "0.02", tickValueStr: "20.00", currency: "€", numericTickSize: 0.02, numericTickValue: 20.00 },
-            { symbol: "FBTP", name: "Long-Term Euro-BTP", exchange: "Eurex", overnightMargin: "3920.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "FBTS", name: "Short-Term Euro-BTP", exchange: "Eurex", overnightMargin: "1225.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "FOAT", name: "Euro-OAT", exchange: "Eurex", overnightMargin: "2775.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "SO3", name: "3-Month SONIA Index", exchange: "ICE Europe - Financials", overnightMargin: "340.00", tickSizeStr: "0.005", tickValueStr: "6.25", currency: "£", numericTickSize: 0.005, numericTickValue: 6.25 },
-            { symbol: "R", name: "Long Gilt", exchange: "ICE Europe - Financials", overnightMargin: "3400.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "£", numericTickSize: 0.01, numericTickValue: 10.00 },
-            { symbol: "JGB", name: "10-Year Japanese Government Bond", exchange: "Osaka - Japan (JPX)", overnightMargin: "9042.00", tickSizeStr: "0.01", tickValueStr: "10000.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 10000.00 },
-            { symbol: "JB", name: "SGX 10-Year Mini JGB", exchange: "Singapore Exchange (SGX)", overnightMargin: "1061.00", tickSizeStr: "0.01", tickValueStr: "100.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 100.00 },
-            { symbol: "IR", name: "ASX 90-Day Bank Bill", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "535.00", tickSizeStr: "0.01", tickValueStr: "24.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 24.00 },
-            { symbol: "XT", name: "ASX 10-Year Aus Treasury Bond", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "1740.00", tickSizeStr: "0.005", tickValueStr: "47.00", currency: "A$", numericTickSize: 0.005, numericTickValue: 47.00 },
-            { symbol: "YT", name: "ASX 3-Year Aus Interest Rate Swap", exchange: "Australian Securities Exchange (ASX)", overnightMargin: "667.00", tickSizeStr: "0.01", tickValueStr: "30.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 30.00 },
-            { symbol: "ZC", name: "Corn", exchange: "CBOT/CME", overnightMargin: "1155.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "XC", name: "Mini-Corn", exchange: "CBOT/CME", overnightMargin: "231.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
-            { symbol: "MZC", name: "Micro Corn", exchange: "CBOT/CME", overnightMargin: "115.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
-            { symbol: "ZW", name: "Chicago SRW Wheat", exchange: "CBOT/CME", overnightMargin: "1815.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "XW", name: "Mini-sized Chicago SRW Wheat", exchange: "CBOT/CME", overnightMargin: "363.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
-            { symbol: "MZW", name: "Micro Wheat", exchange: "CBOT/CME", overnightMargin: "181.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
-            { symbol: "ZS", name: "Soybeans", exchange: "CBOT/CME", overnightMargin: "2365.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "XK", name: "Mini Soybean", exchange: "CBOT/CME", overnightMargin: "473.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
-            { symbol: "MZS", name: "Micro Soybean", exchange: "CBOT/CME", overnightMargin: "236.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
-            { symbol: "ZL", name: "Soybean Oil", exchange: "CBOT/CME", overnightMargin: "1870.00", tickSizeStr: "1/100", tickValueStr: "6.00", currency: "$", numericTickSize: 0.01, numericTickValue: 6.00 },
-            { symbol: "MZL", name: "Micro Soybean Oil", exchange: "CBOT/CME", overnightMargin: "198.00", tickSizeStr: "0.02", tickValueStr: "1.20", currency: "$", numericTickSize: 0.02, numericTickValue: 1.20 },
-            { symbol: "ZM", name: "Soybean Meal", exchange: "CBOT/CME", overnightMargin: "2310.00", tickSizeStr: "0.10", tickValueStr: "10.00", currency: "$", numericTickSize: 0.10, numericTickValue: 10.00 },
-            { symbol: "MZM", name: "Micro Soybean Meal", exchange: "CBOT/CME", overnightMargin: "231.00", tickSizeStr: "0.2", tickValueStr: "2.00", currency: "$", numericTickSize: 0.2, numericTickValue: 2.00 },
-            { symbol: "ZO", name: "Oats", exchange: "CBOT/CME", overnightMargin: "1210.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
-            { symbol: "ZR", name: "Rough Rice", exchange: "CBOT/CME", overnightMargin: "1540.00", tickSizeStr: "0.005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.005, numericTickValue: 10.00 },
-            { symbol: "DC", name: "Class III Milk", exchange: "CME", overnightMargin: "1320.00", tickSizeStr: "0.01", tickValueStr: "20.00", currency: "$", numericTickSize: 0.01, numericTickValue: 20.00 },
-            { symbol: "LB", name: "Lumber", exchange: "CME", overnightMargin: "990.00", tickSizeStr: "0.10", tickValueStr: "11.00", currency: "$", numericTickSize: 0.10, numericTickValue: 11.00 },
-            { symbol: "CC", name: "Cocoa", exchange: "ICE Futures U.S.", overnightMargin: "13090.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "$", numericTickSize: 1, numericTickValue: 10.00 },
-            { symbol: "CT", name: "Cotton", exchange: "ICE Futures U.S.", overnightMargin: "1435.00", tickSizeStr: "0.0001", tickValueStr: "5.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 5.00 },
-            { symbol: "KC", name: "Coffee", exchange: "ICE Futures U.S.", overnightMargin: "9829.00", tickSizeStr: "0.0005", tickValueStr: "18.75", currency: "$", numericTickSize: 0.0005, numericTickValue: 18.75 },
-            { symbol: "OJ", name: "Orange Juice", exchange: "ICE Futures U.S.", overnightMargin: "6270.00", tickSizeStr: "0.0005", tickValueStr: "7.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 7.50 },
-            { symbol: "SB", name: "Sugar #11", exchange: "ICE Futures U.S.", overnightMargin: "1556.00", tickSizeStr: "0.0001", tickValueStr: "11.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 11.20 },
-            { symbol: "GF", name: "Feeder Cattle", exchange: "CME", overnightMargin: "4537.00", tickSizeStr: "0.00025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.00025, numericTickValue: 12.50 },
-            { symbol: "HE", name: "Lean Hog", exchange: "CME", overnightMargin: "2035.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 },
-            { symbol: "LE", name: "Live Cattle", exchange: "CME", overnightMargin: "3025.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 }
+            // Micro E-mini Futures
+            { symbol: "MES", name: "Micro E-mini S&P 500", exchange: "CME", contractSize: "$5 x S&P Index", months: "H,M,U,Z", overnightMargin: "2455.00", tickSizeStr: "0.25", tickValueStr: "1.25", currency: "$", numericTickSize: 0.25, numericTickValue: 1.25 },
+            { symbol: "MNQ", name: "Micro E-mini Nasdaq-100", exchange: "CME", contractSize: "$2 x Nasdaq-100 Index", months: "H,M,U,Z", overnightMargin: "3572.00", tickSizeStr: "0.25", tickValueStr: "0.50", currency: "$", numericTickSize: 0.25, numericTickValue: 0.50 },
+            { symbol: "MYM", name: "Micro E-mini Dow", exchange: "CBOT/CME", contractSize: "$0.50 x DJIA Index", months: "H,M,U,Z", overnightMargin: "1527.00", tickSizeStr: "1.00", tickValueStr: "0.50", currency: "$", numericTickSize: 1.00, numericTickValue: 0.50 },
+            { symbol: "M2K", name: "Micro E-mini Russell 2000", exchange: "CME", contractSize: "$5 x Russell 2000 Index", months: "H,M,U,Z", overnightMargin: "1027.00", tickSizeStr: "0.10", tickValueStr: "0.50", currency: "$", numericTickSize: 0.10, numericTickValue: 0.50 },
+            { symbol: "FDXS", name: "Micro-DAX", exchange: "Eurex", contractSize: "€1 x Index Value", months: "H,M,U,Z", overnightMargin: "1850.00", tickSizeStr: "1", tickValueStr: "1.00", currency: "€", numericTickSize: 1, numericTickValue: 1.00 },
+            { symbol: "FSXE", name: "Micro-EURO STOXX 50", exchange: "Eurex", contractSize: "€1 x Index Value", months: "H,M,U,Z", overnightMargin: "395.00", tickSizeStr: "0.5", tickValueStr: "0.50", currency: "€", numericTickSize: 0.5, numericTickValue: 0.50 },
+            
+            // Stock Index Futures
+            { symbol: "ES", name: "E-mini S&P 500", exchange: "CME", contractSize: "$50 x Index Value", months: "H,M,U,Z", overnightMargin: "24550.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "NQ", name: "E-mini Nasdaq-100", exchange: "CME", contractSize: "$20 x Index Value", months: "H,M,U,Z", overnightMargin: "35714.00", tickSizeStr: "0.25", tickValueStr: "5.00", currency: "$", numericTickSize: 0.25, numericTickValue: 5.00 },
+            { symbol: "YM", name: "E-mini Dow ($5)", exchange: "CBOT/CME", contractSize: "$5 x Index Value", months: "H,M,U,Z", overnightMargin: "15269.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "$", numericTickSize: 1, numericTickValue: 5.00 },
+            { symbol: "RTY", name: "E-mini Russell 2000", exchange: "CME", contractSize: "$50 x Index Value", months: "H,M,U,Z", overnightMargin: "10274.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
+            { symbol: "EMD", name: "E-mini S&P MidCap 400", exchange: "CME", contractSize: "$100 x Index Value", months: "H,M,U,Z", overnightMargin: "24888.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "MNK", name: "Micro Nikkei (USD)", exchange: "CME", contractSize: "$0.50 x Index Value", months: "H,M,U,Z", overnightMargin: "1698.40", tickSizeStr: "5", tickValueStr: "2.50", currency: "$", numericTickSize: 5, numericTickValue: 2.50 },
+            { symbol: "NKD", name: "NIKKEI 225/USD", exchange: "CME", contractSize: "$5 x Index Value", months: "H,M,U,Z", overnightMargin: "16980.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
+            { symbol: "FDAX", name: "DAX", exchange: "Eurex", contractSize: "€25 x Index Value", months: "H,M,U,Z", overnightMargin: "46442.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "€", numericTickSize: 1, numericTickValue: 25.00 },
+            { symbol: "FDXM", name: "Mini-DAX", exchange: "Eurex", contractSize: "€5 x Index Value", months: "H,M,U,Z", overnightMargin: "9285.00", tickSizeStr: "1", tickValueStr: "5.00", currency: "€", numericTickSize: 1, numericTickValue: 5.00 },
+            { symbol: "FESX", name: "EURO STOXX 50", exchange: "Eurex", contractSize: "€10 x Index Value", months: "H,M,U,Z", overnightMargin: "4500.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "€", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "FXXP", name: "STOXX Europe 600", exchange: "Eurex", contractSize: "€50 x Index Value", months: "H,M,U,Z", overnightMargin: "2320.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "€", numericTickSize: 0.1, numericTickValue: 5.00 },
+            { symbol: "FESB", name: "EURO STOXX Banks", exchange: "Eurex", contractSize: "€50 x Index Value", months: "H,M,U,Z", overnightMargin: "1285.00", tickSizeStr: "0.05", tickValueStr: "2.50", currency: "€", numericTickSize: 0.05, numericTickValue: 2.50 },
+            { symbol: "FVS", name: "VSTOXX", exchange: "Eurex", contractSize: "€100 x Index Value", months: "see exch.", overnightMargin: "1030.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "€", numericTickSize: 0.05, numericTickValue: 5.00 },
+            { symbol: "VX", name: "CBOE Volatility Index (VIX)", exchange: "CFE/CBOE", contractSize: "$1000 x Index Value", months: "see exch.", overnightMargin: "11770.00", tickSizeStr: "0.05", tickValueStr: "50.00", currency: "$", numericTickSize: 0.05, numericTickValue: 50.00 },
+            { symbol: "VXM", name: "Mini CBOE Volatility Index (Mini VIX)", exchange: "CFE/CBOE", contractSize: "$100 x Index Value", months: "see exch.", overnightMargin: "1177.00", tickSizeStr: "0.05", tickValueStr: "5.00", currency: "$", numericTickSize: 0.05, numericTickValue: 5.00 },
+            { symbol: "Y", name: "FTSE 250 Index", exchange: "ICE Europe - Financials", contractSize: "€2 x Index Value", months: "H,M,U,Z", overnightMargin: "2900.00", tickSizeStr: "0.5", tickValueStr: "1.00", currency: "£", numericTickSize: 0.5, numericTickValue: 1.00 },
+            { symbol: "Z", name: "FTSE 100 Index", exchange: "ICE Europe - Financials", contractSize: "£10 x Index Value", months: "H,M,U,Z", overnightMargin: "5385.00", tickSizeStr: "0.5", tickValueStr: "5.00", currency: "£", numericTickSize: 0.5, numericTickValue: 5.00 },
+            { symbol: "MC225", name: "Nikkei 225 micro (Osaka)", exchange: "Osaka - Japan (JPX)", contractSize: "¥10 X Index Value", months: "H,M,U,Z", overnightMargin: "200.00", tickSizeStr: "5", tickValueStr: "50.00", currency: "¥", numericTickSize: 5, numericTickValue: 50.00 },
+            { symbol: "MJNK", name: "Nikkei 225 mini (Osaka)", exchange: "Osaka - Japan (JPX)", contractSize: "¥100 X Index Value", months: "H,M,U,Z", overnightMargin: "2002.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
+            { symbol: "JNK", name: "Nikkei 225 (Osaka)", exchange: "Osaka - Japan (JPX)", contractSize: "¥1000 X Index Value", months: "H,M,U,Z", overnightMargin: "20075.00", tickSizeStr: "10", tickValueStr: "10000.00", currency: "¥", numericTickSize: 10, numericTickValue: 10000.00 },
+            { symbol: "JTPX", name: "TOPIX", exchange: "Osaka - Japan (JPX)", contractSize: "¥10000 X Index Value", months: "H,M,U,Z", overnightMargin: "15625.00", tickSizeStr: "0.5", tickValueStr: "5000.00", currency: "¥", numericTickSize: 0.5, numericTickValue: 5000.00 },
+            { symbol: "JMT", name: "Mini-TOPIX", exchange: "Osaka - Japan (JPX)", contractSize: "¥1000 X Index Value", months: "H,M,U,Z", overnightMargin: "1562.00", tickSizeStr: "0.25", tickValueStr: "250.00", currency: "¥", numericTickSize: 0.25, numericTickValue: 250.00 },
+            { symbol: "J400", name: "JPX-Nikkei Index 400", exchange: "Osaka - Japan (JPX)", contractSize: "¥100 X Index Value", months: "H,M,U,Z", overnightMargin: "1393.00", tickSizeStr: "5", tickValueStr: "500.00", currency: "¥", numericTickSize: 5, numericTickValue: 500.00 },
+            { symbol: "NK", name: "SGX Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", contractSize: "¥500 X Index Value", months: "All", overnightMargin: "9846.00", tickSizeStr: "5", tickValueStr: "2500.00", currency: "¥", numericTickSize: 5, numericTickValue: 2500.00 },
+            { symbol: "NS", name: "SGX Mini Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", contractSize: "¥100 x Index Value", months: "see exch.", overnightMargin: "2953.00", tickSizeStr: "1", tickValueStr: "100.00", currency: "¥", numericTickSize: 1, numericTickValue: 100.00 },
+            { symbol: "NU", name: "SGX USD Nikkei 225 Index", exchange: "Singapore Exchange (SGX)", contractSize: "$5 x Index Value", months: "H,M,U,Z", overnightMargin: "11550.00", tickSizeStr: "5", tickValueStr: "25.00", currency: "$", numericTickSize: 5, numericTickValue: 25.00 },
+            { symbol: "TW", name: "FTSE Taiwan Stock Index", exchange: "Singapore Exchange (SGX)", contractSize: "US$100 x SGX MSCI Taiwan Index", months: "H,M,U,Z", overnightMargin: "6160.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "AP", name: "ASX SPI200 Index", exchange: "Australian Securities Exchange (ASX)", contractSize: "$25 X Index Value", months: "H,M,U,Z", overnightMargin: "10568.00", tickSizeStr: "1", tickValueStr: "25.00", currency: "A$", numericTickSize: 1, numericTickValue: 25.00 },
+            { symbol: "HSI", name: "Hang Seng Index", exchange: "Hong Kong (HKEX)", contractSize: "50HK$ per index point", months: "see exch.", overnightMargin: "16876.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
+            { symbol: "MHI", name: "Mini-Hang Seng Index", exchange: "Hong Kong (HKEX)", contractSize: "10HK$ per index point", months: "see exch.", overnightMargin: "3375.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "HHI", name: "Hang Seng China Ent. Index", exchange: "Hong Kong (HKEX)", contractSize: "50HK$ per index point", months: "see exch.", overnightMargin: "6528.00", tickSizeStr: "1", tickValueStr: "50.00", currency: "HK$", numericTickSize: 1, numericTickValue: 50.00 },
+            { symbol: "MCH", name: "Mini-Hang-Seng China Ent. Index", exchange: "Hong Kong (HKEX)", contractSize: "10HK$ per index point", months: "see exch.", overnightMargin: "1305.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "HK$", numericTickSize: 1, numericTickValue: 10.00 },
+            
+            // Currencies
+            { symbol: "6A", name: "Australian Dollar", exchange: "CME", contractSize: "100K AUD", months: "H,M,U,Z", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 10.00 },
+            { symbol: "6B", name: "British Pound", exchange: "CME", contractSize: "62.5K £", months: "H,M,U,Z", overnightMargin: "2420.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
+            { symbol: "6C", name: "Canadian Dollar", exchange: "CME", contractSize: "100K $", months: "H,M,U,Z", overnightMargin: "1485.00", tickSizeStr: "0.00005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 5.00 },
+            { symbol: "6E", name: "Euro FX", exchange: "CME", contractSize: "125K €", months: "H,M,U,Z", overnightMargin: "3740.00", tickSizeStr: "0.00005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.00005, numericTickValue: 6.25 },
+            { symbol: "6J", name: "Japanese Yen", exchange: "CME", contractSize: "12.5 mil ¥", months: "H,M,U,Z", overnightMargin: "4180.00", tickSizeStr: "0.0000005", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0000005, numericTickValue: 6.25 },
+            { symbol: "6N", name: "New Zealand Dollar", exchange: "CME", contractSize: "100K NZD", months: "H,M,U,Z", overnightMargin: "1870.00", tickSizeStr: "0.00005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00005, numericTickValue: 10.00 },
+            { symbol: "6S", name: "Swiss Franc", exchange: "CME", contractSize: "125K CHF", months: "H,M,U,Z", overnightMargin: "5940.00", tickSizeStr: "0.0001", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0001, numericTickValue: 12.50 },
+            { symbol: "E7", name: "E-mini Euro FX", exchange: "CME", contractSize: "62.5K €", months: "H,M,U,Z", overnightMargin: "1870.00", tickSizeStr: "0.0001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 6.25 },
+            { symbol: "J7", name: "E-mini Japanese Yen", exchange: "CME", contractSize: "6.25 mil ¥", months: "H,M,U,Z", overnightMargin: "2090.00", tickSizeStr: "0.000001", tickValueStr: "6.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 6.25 },
+            { symbol: "M6A", name: "Micro AUD/USD", exchange: "CME", contractSize: "10K AUD", months: "H,M,U,Z", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
+            { symbol: "M6B", name: "Micro GBP/USD", exchange: "CME", contractSize: "6,250 £", months: "H,M,U,Z", overnightMargin: "242.00", tickSizeStr: "0.0001", tickValueStr: "0.625", currency: "$", numericTickSize: 0.0001, numericTickValue: 0.625 },
+            { symbol: "MCD", name: "Micro CAD/USD", exchange: "CME", contractSize: "10,000 CAD", months: "H,M,U,Z", overnightMargin: "148.00", tickSizeStr: "0.0001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.00 },
+            { symbol: "M6E", name: "Micro EUR/USD", exchange: "CME", contractSize: "12,500 €", months: "H,M,U,Z", overnightMargin: "374.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
+            { symbol: "MJY", name: "Micro JPY/USD", exchange: "CME", contractSize: "1,250,000 ¥", months: "H,M,U,Z", overnightMargin: "418.00", tickSizeStr: "0.000001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.000001, numericTickValue: 1.25 },
+            { symbol: "MSF", name: "Micro CHF/USD", exchange: "CME", contractSize: "12,500 CHF", months: "H,M,U,Z", overnightMargin: "594.00", tickSizeStr: "0.0001", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0001, numericTickValue: 1.25 },
+            { symbol: "DX", name: "Dollar Index", exchange: "ICE Futures U.S.", contractSize: "$1000 X Index Value", months: "H,M,U,Z", overnightMargin: "1974.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "$", numericTickSize: 0.005, numericTickValue: 5.00 },
+
+            // Energies
+            { symbol: "CL", name: "Crude Oil", exchange: "NYMEX/CME", contractSize: "1,000 barrels", months: "All", overnightMargin: "6633.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "QM", name: "E-mini Crude Oil", exchange: "NYMEX/CME", contractSize: "500 barrels", months: "All", overnightMargin: "3328.00", tickSizeStr: "0.025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.025, numericTickValue: 12.50 },
+            { symbol: "MCL", name: "Micro WTI Crude Oil", exchange: "NYMEX/CME", contractSize: "100 barrels", months: "All", overnightMargin: "666.00", tickSizeStr: "0.01", tickValueStr: "1.00", currency: "$", numericTickSize: 0.01, numericTickValue: 1.00 },
+            { symbol: "NG", name: "Natural Gas", exchange: "NYMEX/CME", contractSize: "10,000 mmBtu", months: "All", overnightMargin: "3638.00", tickSizeStr: "0.001", tickValueStr: "10.00", currency: "$", numericTickSize: 0.001, numericTickValue: 10.00 },
+            { symbol: "QG", name: "E-mini Natural Gas", exchange: "NYMEX/CME", contractSize: "2,500 mmBtu", months: "All", overnightMargin: "915.00", tickSizeStr: "0.005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.005, numericTickValue: 12.50 },
+            { symbol: "MNG", name: "Micro Henry Hub Natural Gas", exchange: "NYMEX/CME", contractSize: "1,000 MMBtu", months: "All", overnightMargin: "366.00", tickSizeStr: "0.001", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "RB", name: "RBOB Gasoline", exchange: "NYMEX/CME", contractSize: "42K gal", months: "All", overnightMargin: "7177.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
+            { symbol: "HO", name: "Heating Oil", exchange: "NYMEX/CME", contractSize: "42K gal", months: "All", overnightMargin: "7480.00", tickSizeStr: "0.0001", tickValueStr: "4.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 4.20 },
+            { symbol: "BRN", name: "ICE Brent Crude", exchange: "ICE Europe - Commodities", contractSize: "42K gal", months: "All", overnightMargin: "5310.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "T", name: "ICE WTI Crude", exchange: "ICE Europe - Commodities", contractSize: "42K gal", months: "All", overnightMargin: "6450.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "G", name: "ICE Gas Oil", exchange: "ICE Europe - Commodities", contractSize: "100 tonnes", months: "H,M,U,Z", overnightMargin: "4396.00", tickSizeStr: "0.25", tickValueStr: "25.00", currency: "$", numericTickSize: 0.25, numericTickValue: 25.00 },
+            
+            // Metals
+            { symbol: "GC", name: "Gold", exchange: "COMEX/CME", contractSize: "100 oz", months: "G,J,M,Q,V,Z", overnightMargin: "16500.00", tickSizeStr: "0.1", tickValueStr: "10.00", currency: "$", numericTickSize: 0.1, numericTickValue: 10.00 },
+            { symbol: "QO", name: "E-mini Gold", exchange: "COMEX/CME", contractSize: "50 oz", months: "F,G,J,M,Q,V,Z", overnightMargin: "8250.00", tickSizeStr: "0.25", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "MGC", name: "Micro Gold", exchange: "COMEX/CME", contractSize: "10 oz", months: "G,J,M,Q,V,Z", overnightMargin: "1650.00", tickSizeStr: "0.10", tickValueStr: "1.00", currency: "$", numericTickSize: 0.10, numericTickValue: 1.00 },
+            { symbol: "1OZ", name: "1-Ounce Gold", exchange: "COMEX/CME", contractSize: "1 troy ounce", months: "G,J,M,Q,V,Z", overnightMargin: "165.00", tickSizeStr: "0.25", tickValueStr: "0.25", currency: "$", numericTickSize: 0.25, numericTickValue: 0.25 },
+            { symbol: "HG", name: "Copper", exchange: "COMEX/CME", contractSize: "25K lbs", months: "All", overnightMargin: "9900.00", tickSizeStr: "0.0005", tickValueStr: "12.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 12.50 },
+            { symbol: "QC", name: "E-mini Copper", exchange: "COMEX/CME", contractSize: "12,500 lbs", months: "All", overnightMargin: "4950.00", tickSizeStr: "0.002", tickValueStr: "25.00", currency: "$", numericTickSize: 0.002, numericTickValue: 25.00 },
+            { symbol: "MHG", name: "Micro Copper", exchange: "COMEX/CME", contractSize: "2,500 lbs", months: "All", overnightMargin: "990.00", tickSizeStr: "0.0005", tickValueStr: "1.25", currency: "$", numericTickSize: 0.0005, numericTickValue: 1.25 },
+            { symbol: "SI", name: "Silver", exchange: "COMEX/CME", contractSize: "5,000 oz", months: "F,H,K,N,U,Z", overnightMargin: "16500.00", tickSizeStr: "0.005", tickValueStr: "25.00", currency: "$", numericTickSize: 0.005, numericTickValue: 25.00 },
+            { symbol: "QI", name: "E-mini Silver", exchange: "COMEX/CME", contractSize: "2,500 oz", months: "F,G,H,K,N,U,Z", overnightMargin: "8250.00", tickSizeStr: "0.0125", tickValueStr: "31.25", currency: "$", numericTickSize: 0.0125, numericTickValue: 31.25 },
+            { symbol: "SIL", name: "E-micro Silver", exchange: "COMEX/CME", contractSize: "1,000 oz", months: "F,H,K,N,U,V,X,Z", overnightMargin: "3300.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "$", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "PL", name: "Platinum", exchange: "NYMEX/CME", contractSize: "50 oz", months: "F,J,N,V", overnightMargin: "3850.00", tickSizeStr: "0.1", tickValueStr: "5.00", currency: "$", numericTickSize: 0.1, numericTickValue: 5.00 },
+
+            // Financials
+            { symbol: "UB", name: "Ultra U.S. Treasury Bond", exchange: "CBOT/CME", contractSize: "$100K bond", months: "H,M,U,Z", overnightMargin: "5665.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
+            { symbol: "MWN", name: "Micro Ultra U.S. Treasury Bond", exchange: "CBOT/CME", contractSize: "$10K bond", months: "H,M,U,Z", overnightMargin: "566.00", tickSizeStr: "1/32", tickValueStr: "3.125", currency: "$", numericTickSize: 1/32, numericTickValue: 3.125 },
+            { symbol: "TN", name: "Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$100K Note", months: "H,M,U,Z", overnightMargin: "2805.00", tickSizeStr: "1/32", tickValueStr: "15.625", currency: "$", numericTickSize: 1/32, numericTickValue: 15.625 }, 
+            { symbol: "MTN", name: "Micro Ultra 10-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$10K Note", months: "H,M,U,Z", overnightMargin: "280.00", tickSizeStr: "1/2 of 1/32", tickValueStr: "1.5625", currency: "$", numericTickSize: 0.5/32, numericTickValue: 1.5625 },
+            { symbol: "Z3N", name: "3-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$300K note", months: "H,M,U,Z", overnightMargin: "1980.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
+            { symbol: "ZB", name: "U.S. Treasury Bond", exchange: "CBOT/CME", contractSize: "$100K bond", months: "H,M,U,Z", overnightMargin: "4070.00", tickSizeStr: "1/32", tickValueStr: "31.25", currency: "$", numericTickSize: 1/32, numericTickValue: 31.25 },
+            { symbol: "30YY", name: "Micro 30-Year Yield", exchange: "CBOT/CME", contractSize: "$10.00 DV01", months: "H,M,U,Z", overnightMargin: "297.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZF", name: "5-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$100K note", months: "H,M,U,Z", overnightMargin: "1375.00", tickSizeStr: "1/128", tickValueStr: "7.8125", currency: "$", numericTickSize: 1/128, numericTickValue: 7.8125 },
+            { symbol: "5YY", name: "Micro 5-Year Yield", exchange: "CBOT/CME", contractSize: "$10.00 DV01", months: "H,M,U,Z", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZN", name: "10-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$100K note", months: "H,M,U,Z", overnightMargin: "2062.00", tickSizeStr: "1/64", tickValueStr: "15.625", currency: "$", numericTickSize: 1/64, numericTickValue: 15.625 },
+            { symbol: "10YY", name: "Micro 10-Year Yield", exchange: "CBOT/CME", contractSize: "$10.00 DV01", months: "H,M,U,Z", overnightMargin: "352.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "ZQ", name: "30-Day Federal Funds", exchange: "CBOT/CME", contractSize: "$5 mil", months: "All", overnightMargin: "467.00", tickSizeStr: "0.005", tickValueStr: "20.835", currency: "$", numericTickSize: 0.005, numericTickValue: 20.835 },
+            { symbol: "ZT", name: "2-Year U.S. Treasury Note", exchange: "CBOT/CME", contractSize: "$200K note", months: "H,M,U,Z", overnightMargin: "1320.00", tickSizeStr: "1/128", tickValueStr: "15.625", currency: "$", numericTickSize: 1/128, numericTickValue: 15.625 },
+            { symbol: "2YY", name: "Micro 2-Year Yield", exchange: "CBOT/CME", contractSize: "$10.00 DV01", months: "H,M,U,Z", overnightMargin: "363.00", tickSizeStr: "1/10 of 1bp", tickValueStr: "1.00", currency: "$", numericTickSize: 0.001, numericTickValue: 1.00 },
+            { symbol: "SR1", name: "One-Month SOFR", exchange: "CME", contractSize: "$2,500 per bp", months: "All", overnightMargin: "192.00", tickSizeStr: "0.005", tickValueStr: "20.8333", currency: "$", numericTickSize: 0.005, numericTickValue: 20.8333 },
+            { symbol: "SR3", name: "Three-Month SOFR", exchange: "CME", contractSize: "$2,500 per bp", months: "All", overnightMargin: "539.00", tickSizeStr: "0.0025", tickValueStr: "6.25", currency: "$", numericTickSize: 0.0025, numericTickValue: 6.25 },
+            { symbol: "FGBL", name: "Euro-Bund", exchange: "Eurex", contractSize: "100K €", months: "H,M,U,Z", overnightMargin: "2835.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FGBM", name: "Euro-Bobl", exchange: "Eurex", contractSize: "100K €", months: "H,M,U,Z", overnightMargin: "1615.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FGBS", name: "Euro-Schatz", exchange: "Eurex", contractSize: "100K €", months: "H,M,U,Z", overnightMargin: "585.00", tickSizeStr: "0.005", tickValueStr: "5.00", currency: "€", numericTickSize: 0.005, numericTickValue: 5.00 },
+            { symbol: "FGBX", name: "Euro-Buxl", exchange: "Eurex", contractSize: "100K€", months: "H,M,U,Z", overnightMargin: "6175.00", tickSizeStr: "0.02", tickValueStr: "20.00", currency: "€", numericTickSize: 0.02, numericTickValue: 20.00 },
+            { symbol: "FBTP", name: "Long-Term Euro-BTP", exchange: "Eurex", contractSize: "100K€", months: "H,M,U,Z", overnightMargin: "3920.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FBTS", name: "Short-Term Euro-BTP", exchange: "Eurex", contractSize: "100K€", months: "H,M,U,Z", overnightMargin: "1225.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "FOAT", name: "Euro-OAT", exchange: "Eurex", contractSize: "100K€", months: "H,M,U,Z", overnightMargin: "2775.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "€", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "SO3", name: "3-Month SONIA Index", exchange: "ICE Europe - Financials", contractSize: "£500,000", months: "H,M,U,Z", overnightMargin: "340.00", tickSizeStr: "0.005", tickValueStr: "6.25", currency: "£", numericTickSize: 0.005, numericTickValue: 6.25 },
+            { symbol: "R", name: "Long Gilt", exchange: "ICE Europe - Financials", contractSize: "£100K", months: "H,M,U,Z", overnightMargin: "3400.00", tickSizeStr: "0.01", tickValueStr: "10.00", currency: "£", numericTickSize: 0.01, numericTickValue: 10.00 },
+            { symbol: "JGB", name: "10-Year Japanese Government Bond", exchange: "Osaka - Japan (JPX)", contractSize: "¥100,000,000", months: "H,M,U,Z", overnightMargin: "9042.00", tickSizeStr: "0.01", tickValueStr: "10000.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 10000.00 },
+            { symbol: "JB", name: "SGX 10-Year Mini JGB", exchange: "Singapore Exchange (SGX)", contractSize: "¥10,000,000", months: "H,M,U,Z", overnightMargin: "1061.00", tickSizeStr: "0.01", tickValueStr: "100.00", currency: "¥", numericTickSize: 0.01, numericTickValue: 100.00 },
+            { symbol: "IR", name: "ASX 90-Day Bank Bill", exchange: "Australian Securities Exchange (ASX)", contractSize: "A$1,000,000", months: "H,M,U,Z", overnightMargin: "535.00", tickSizeStr: "0.01", tickValueStr: "24.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 24.00 },
+            { symbol: "XT", name: "ASX 10-Year Aus Treasury Bond", exchange: "Australian Securities Exchange (ASX)", contractSize: "A$100,000", months: "H,M,U,Z", overnightMargin: "1740.00", tickSizeStr: "0.005", tickValueStr: "47.00", currency: "A$", numericTickSize: 0.005, numericTickValue: 47.00 },
+            { symbol: "YT", name: "ASX 3-Year Aus Interest Rate Swap", exchange: "Australian Securities Exchange (ASX)", contractSize: "A$100,000", months: "H,M,U,Z", overnightMargin: "667.00", tickSizeStr: "0.01", tickValueStr: "30.00", currency: "A$", numericTickSize: 0.01, numericTickValue: 30.00 },
+
+            // Grains
+            { symbol: "ZC", name: "Corn", exchange: "CBOT/CME", contractSize: "5,000 bu", months: "H,K,N,U,Z", overnightMargin: "1155.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XC", name: "Mini-Corn", exchange: "CBOT/CME", contractSize: "1,000 bu", months: "H,K,N,U,Z", overnightMargin: "231.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZC", name: "Micro Corn", exchange: "CBOT/CME", contractSize: "500 bushels", months: "H,K,N,U,Z", overnightMargin: "115.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZW", name: "Chicago SRW Wheat", exchange: "CBOT/CME", contractSize: "5,000 bu", months: "H,K,N,U,Z", overnightMargin: "1815.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XW", name: "Mini-sized Chicago SRW Wheat", exchange: "CBOT/CME", contractSize: "1,000 bu", months: "H,K,N,U,Z", overnightMargin: "363.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZW", name: "Micro Wheat", exchange: "CBOT/CME", contractSize: "500 bushels", months: "H,K,N,U,Z", overnightMargin: "181.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZS", name: "Soybeans", exchange: "CBOT/CME", contractSize: "5,000 bu", months: "F,H,K,N,Q,U,X", overnightMargin: "2365.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "XK", name: "Mini Soybean", exchange: "CBOT/CME", contractSize: "1,000 bu", months: "F,H,K,N,Q,U,X", overnightMargin: "473.00", tickSizeStr: "1/8", tickValueStr: "1.25", currency: "$", numericTickSize: 0.125, numericTickValue: 1.25 },
+            { symbol: "MZS", name: "Micro Soybean", exchange: "CBOT/CME", contractSize: "500 bushels", months: "F,H,K,N,Q,U,X", overnightMargin: "236.00", tickSizeStr: "0.0050", tickValueStr: "2.50", currency: "$", numericTickSize: 0.0050, numericTickValue: 2.50 },
+            { symbol: "ZL", name: "Soybean Oil", exchange: "CBOT/CME", contractSize: "60K lbs", months: "F,H,K,N,Q,U,V,Z", overnightMargin: "1870.00", tickSizeStr: "1/100", tickValueStr: "6.00", currency: "$", numericTickSize: 0.01, numericTickValue: 6.00 },
+            { symbol: "MZL", name: "Micro Soybean Oil", exchange: "CBOT/CME", contractSize: "6,000 lbs", months: "F,H,K,N,Q,U,V,Z", overnightMargin: "198.00", tickSizeStr: "0.02", tickValueStr: "1.20", currency: "$", numericTickSize: 0.02, numericTickValue: 1.20 },
+            { symbol: "ZM", name: "Soybean Meal", exchange: "CBOT/CME", contractSize: "100 tons", months: "F,H,K,N,Q,U,V,Z", overnightMargin: "2310.00", tickSizeStr: "0.10", tickValueStr: "10.00", currency: "$", numericTickSize: 0.10, numericTickValue: 10.00 },
+            { symbol: "MZM", name: "Micro Soybean Meal", exchange: "CBOT/CME", contractSize: "10 short tons", months: "F,H,K,N,Q,U,V,Z", overnightMargin: "231.00", tickSizeStr: "0.2", tickValueStr: "2.00", currency: "$", numericTickSize: 0.2, numericTickValue: 2.00 },
+            { symbol: "ZO", name: "Oats", exchange: "CBOT/CME", contractSize: "5,000 bu", months: "H,K,N,U,Z", overnightMargin: "1210.00", tickSizeStr: "1/4", tickValueStr: "12.50", currency: "$", numericTickSize: 0.25, numericTickValue: 12.50 },
+            { symbol: "ZR", name: "Rough Rice", exchange: "CBOT/CME", contractSize: "2,000 cwt", months: "F,H,K,N,U,X", overnightMargin: "1540.00", tickSizeStr: "0.005", tickValueStr: "10.00", currency: "$", numericTickSize: 0.005, numericTickValue: 10.00 },
+
+            // Softs
+            { symbol: "DC", name: "Class III Milk", exchange: "CME", contractSize: "200K lbs", months: "All", overnightMargin: "1320.00", tickSizeStr: "0.01", tickValueStr: "20.00", currency: "$", numericTickSize: 0.01, numericTickValue: 20.00 },
+            { symbol: "LB", name: "Lumber", exchange: "CME", contractSize: "110K board feet", months: "F,H,K,N,U,X", overnightMargin: "990.00", tickSizeStr: "0.10", tickValueStr: "11.00", currency: "$", numericTickSize: 0.10, numericTickValue: 11.00 },
+            { symbol: "CC", name: "Cocoa", exchange: "ICE Futures U.S.", contractSize: "10 tons", months: "H,K,N,U,Z", overnightMargin: "13090.00", tickSizeStr: "1", tickValueStr: "10.00", currency: "$", numericTickSize: 1, numericTickValue: 10.00 },
+            { symbol: "CT", name: "Cotton", exchange: "ICE Futures U.S.", contractSize: "50k lbs", months: "H,K,N,V,Z", overnightMargin: "1435.00", tickSizeStr: "0.0001", tickValueStr: "5.00", currency: "$", numericTickSize: 0.0001, numericTickValue: 5.00 },
+            { symbol: "KC", name: "Coffee", exchange: "ICE Futures U.S.", contractSize: "37.5k lbs", months: "H,K,N,U,Z", overnightMargin: "9829.00", tickSizeStr: "0.0005", tickValueStr: "18.75", currency: "$", numericTickSize: 0.0005, numericTickValue: 18.75 },
+            { symbol: "OJ", name: "Orange Juice", exchange: "ICE Futures U.S.", contractSize: "15k lbs", months: "H,K,N,U,X", overnightMargin: "6270.00", tickSizeStr: "0.0005", tickValueStr: "7.50", currency: "$", numericTickSize: 0.0005, numericTickValue: 7.50 },
+            { symbol: "SB", name: "Sugar #11", exchange: "ICE Futures U.S.", contractSize: "112k lbs", months: "H,K,N,V", overnightMargin: "1556.00", tickSizeStr: "0.0001", tickValueStr: "11.20", currency: "$", numericTickSize: 0.0001, numericTickValue: 11.20 },
+
+            // Meats
+            { symbol: "GF", name: "Feeder Cattle", exchange: "CME", contractSize: "50K lbs", months: "F,H,J,Q,U,V,X", overnightMargin: "4537.00", tickSizeStr: "0.00025", tickValueStr: "12.50", currency: "$", numericTickSize: 0.00025, numericTickValue: 12.50 },
+            { symbol: "HE", name: "Lean Hog", exchange: "CME", contractSize: "40K lbs", months: "G,J,K,M,N,Q,V,Z", overnightMargin: "2035.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 },
+            { symbol: "LE", name: "Live Cattle", exchange: "CME", contractSize: "40K lbs", months: "G,J,M,Q,V,Z", overnightMargin: "3025.00", tickSizeStr: "0.00025", tickValueStr: "10.00", currency: "$", numericTickSize: 0.00025, numericTickValue: 10.00 }
         ];
 
         // DOM Elements for PnL Calculator
         let contractSelect, calcMethodPrice, calcMethodChange, entryPriceInput, exitPriceInput, priceChangeInput, numContractsInput, numContractsChangeInput, directionLong, directionShort, pnlResultDiv;
         
+        const monthCodeLegend = {
+            F: "January", G: "February", H: "March", J: "April", K: "May", M: "June",
+            N: "July", Q: "August", U: "September", V: "October", X: "November", Z: "December",
+            "All": "All Months", "see exch.": "See Exchange for Details"
+        };
+
+        function populateMonthLegend() {
+            const legendDiv = document.getElementById('monthLegend');
+            let legendHtml = '<span class="font-semibold">Month Codes:</span> ';
+            const relevantCodes = new Set();
+            allContractsData.forEach(c => {
+                if (c.months) {
+                    c.months.split(',').forEach(m => relevantCodes.add(m.trim()));
+                }
+            });
+            
+            const sortedCodes = Array.from(relevantCodes).sort((a,b) => {
+                if (a === "All" || a === "see exch.") return 1;
+                if (b === "All" || b === "see exch.") return -1;
+                return a.localeCompare(b);
+            });
+
+            sortedCodes.forEach(code => {
+                if (monthCodeLegend[code]) {
+                    legendHtml += `<span class="ml-2">${code}: ${monthCodeLegend[code]}</span>`;
+                } else if (code.length === 1) { 
+                     legendHtml += `<span class="ml-2">${code}: Unknown</span>`;
+                }
+            });
+            legendDiv.innerHTML = legendHtml;
+        }
+
+
         function populateTable() {
             const tableBody = document.getElementById('contractsTable').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = ""; // Clear existing rows
+            tableBody.innerHTML = ""; 
             allContractsData.forEach(contract => {
                 let row = tableBody.insertRow();
                 row.className = 'hover:bg-gray-700/50 transition-colors duration-150';
                 
-                row.insertCell().textContent = contract.symbol;
+                let symbolCell = row.insertCell();
+                symbolCell.textContent = contract.symbol;
+                symbolCell.className = 'sticky left-0 z-10 px-4 md:px-6 py-3 whitespace-nowrap text-sm text-light-text bg-dark-card'; // Sticky class with background
+
                 row.insertCell().textContent = contract.name;
-                row.insertCell().textContent = contract.exchange;
+                row.insertCell().textContent = contract.months || 'N/A';
                 row.insertCell().textContent = contract.currency + parseFloat(contract.overnightMargin).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 row.insertCell().textContent = contract.tickSizeStr;
                 row.insertCell().textContent = contract.currency + parseFloat(contract.tickValueStr).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                row.insertCell().textContent = contract.contractSize || 'N/A'; 
+                row.insertCell().textContent = contract.exchange;
                 
-                Array.from(row.cells).forEach(cell => {
-                    cell.className = 'px-4 md:px-6 py-3 whitespace-nowrap text-sm text-light-text';
+                // Apply Tailwind classes to non-sticky cells
+                for (let i = 1; i < row.cells.length; i++) { // Start from 1 to skip the sticky cell
+                    row.cells[i].className = 'px-4 md:px-6 py-3 whitespace-nowrap text-sm text-light-text';
+                }
+                 // Ensure alternating row background for sticky cell if needed
+                if (tableBody.rows.length % 2 === 0) { // Even row
+                    symbolCell.classList.remove('bg-dark-card');
+                    symbolCell.classList.add('bg-gray-700/20'); // Or your chosen even row sticky background
+                } else { // Odd row
+                     symbolCell.classList.remove('bg-gray-700/20');
+                    symbolCell.classList.add('bg-dark-card');
+                }
+                 row.addEventListener('mouseenter', () => {
+                    symbolCell.style.backgroundColor = '#4a5568'; // dark-table-header or your hover color
                 });
+                row.addEventListener('mouseleave', () => {
+                     if (tableBody.rows.length % 2 === 0) {
+                         symbolCell.style.backgroundColor = '#2d3748'; // even row sticky bg
+                     } else {
+                         symbolCell.style.backgroundColor = '#1f2937'; // odd row sticky bg
+                     }
+                });
+
+
             });
         }
 
@@ -409,17 +506,18 @@
             const tr = table.getElementsByTagName('tr');
 
             for (let i = 1; i < tr.length; i++) { 
-                let symbolTd = tr[i].getElementsByTagName('td')[0];
-                let nameTd = tr[i].getElementsByTagName('td')[1];
-                if (symbolTd || nameTd) {
-                    let symbolText = symbolTd.textContent || symbolTd.innerText;
-                    let nameText = nameTd.textContent || nameTd.innerText;
-                    if (symbolText.toUpperCase().indexOf(filter) > -1 || nameText.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                let displayRow = false;
+                for (let j = 0; j < tr[i].cells.length; j++) {
+                    let td = tr[i].cells[j];
+                    if (td) {
+                        let textValue = td.textContent || td.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; 
+                        }
                     }
                 }
+                tr[i].style.display = displayRow ? "" : "none";
             }
         }
 
@@ -483,7 +581,7 @@
             
             if (!selectedOption || !selectedOption.value) {
                 pnlResultDiv.style.display = 'none';
-                pnlResultDiv.textContent = ''; // Clear previous results
+                pnlResultDiv.textContent = ''; 
                 return;
             }
 
@@ -505,7 +603,7 @@
                 } else {
                     priceDiff = parseFloat(exit) - parseFloat(entry);
                 }
-            } else { // calcMethodChange
+            } else { 
                 const change = priceChangeInput.value;
                 numContractsValue = numContractsChangeInput.value;
                  if (change === '' || numContractsValue === '' || isNaN(parseFloat(change)) || isNaN(parseInt(numContractsValue)) || parseInt(numContractsValue) <= 0) {
@@ -549,6 +647,7 @@
 
             populateTable();
             populateContractSelect();
+            populateMonthLegend(); 
             toggleCalcFields(); 
 
             contractSelect.addEventListener('change', attemptAutoCalculatePnL);
@@ -565,3 +664,4 @@
     </script>
 </body>
 </html>
+
