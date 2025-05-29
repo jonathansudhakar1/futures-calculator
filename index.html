@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKXCVW3WL3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LKXCVW3WL3');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool</title>
@@ -11,10 +20,10 @@
     <meta name="revisit-after" content="7 days">
     <meta name="theme-color" content="#111827"> <meta http-equiv="Content-Language" content="en">
     
-    <link rel="canonical" href="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:title" content="Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool">
+    <link rel="canonical" href="https://www.futurescontracts.xyz/futures-contracts-pnl-calculator"> <meta property="og:title" content="Futures Contract Specifications & PnL Calculator | Real-Time Trading Tool">
     <meta property="og:description" content="Searchable futures contract data (margins, tick size/value, contract size, months) for CME, Eurex, etc., with an interactive PnL calculator.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.example.com/futures-contracts-pnl-calculator"> <meta property="og:image" content="https://placehold.co/1200x630/111827/e2e8f0?text=Futures+Tool"> <meta property="og:image:alt" content="Futures Contract Specifications and PnL Calculator Tool">
+    <meta property="og:url" content="https://www.futurescontracts.xyz/futures-contracts-pnl-calculator"> <meta property="og:image" content="https://placehold.co/1200x630/111827/e2e8f0?text=Futures+Tool"> <meta property="og:image:alt" content="Futures Contract Specifications and PnL Calculator Tool">
     <meta property="og:site_name" content="Futures Trading Tools"> <meta property="og:locale" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -24,7 +33,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Futures Tool">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16">
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -99,12 +110,12 @@
       "@type": "WebPage",
       "name": "Futures Contract Specifications & PnL Calculator",
       "description": "An interactive tool providing a searchable table of futures contract specifications (margins, tick size, tick value, contract size, months) for major exchanges like CME, Eurex, NYMEX, COMEX, and a real-time Profit and Loss (PnL) calculator for futures trading. Features a modern dark mode interface.",
-      "url": "https://www.example.com/futures-contracts-pnl-calculator", // Replace with actual URL
+      "url": "https://www.futurescontracts.xyz/futures-contracts-pnl-calculator", // Replace with actual URL
       "keywords": "futures contracts, pnl calculator, contract specifications, trading tool, CME, Eurex, NYMEX, COMEX, Micro E-mini, S&P 500, Nasdaq 100, Gold, Crude Oil, Forex Futures, Treasury Futures, day trading margins, tick size, tick value, contract size, contract months, futures trading, financial instruments",
       "mainEntity": {
         "@type": "WebSite",
         "name": "Futures Trading Tools", // Replace with your site name
-        "url": "https://www.example.com/" // Replace with your site's base URL
+        "url": "https://www.futurescontracts.xyz/" // Replace with your site's base URL
       },
       "author": {
         "@type": "Organization", // Or "Person" if applicable
@@ -125,7 +136,7 @@
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://www.example.com/futures-contracts-pnl-calculator?search={search_term_string}" // Replace with actual search URL if applicable
+          "urlTemplate": "https://www.futurescontracts.xyz/futures-contracts-pnl-calculator?search={search_term_string}" // Replace with actual search URL if applicable
         },
         "query-input": "required name=search_term_string"
       }
@@ -136,7 +147,10 @@
 <body class="bg-dark-bg text-light-text font-sans antialiased">
 
     <div class="container mx-auto max-w-5xl p-4 md:p-8">
-        <h1 class="text-3xl md:text-4xl font-bold text-brand-blue mb-8 pb-3 border-b-2 border-brand-blue/50">Futures Contract Information</h1>
+        <div class="flex items-center mb-8">
+            <img src="/icon.png" alt="Futures Calculator Icon" class="w-12 h-12 mr-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-brand-blue pb-3 border-b-2 border-brand-blue/50 flex-1">Futures Contract Information</h1>
+        </div>
 
         <div class="bg-dark-card p-4 md:p-6 rounded-lg shadow-xl mb-8">
             <h2 class="text-xl md:text-2xl font-semibold text-brand-blue mb-5">PnL Calculator</h2>
